@@ -4,64 +4,19 @@ actions:
     runtime: v2
     sources: src/actions
     specs:
-      oneInchLimitOrderFill:
-        description: An order with Arbor Bonds was filled.
-        function: oneInch:orderFilled
+      minipool:
+        description: A minipool's status changed.
+        function: minipool:minipoolStatusChange
         trigger:
           type: transaction
           transaction:
             filters:
               - eventEmitted:
                   contract:
-                    address: 0x1111111254EEB25477B68fb85Ed929f73A960582
-                  name: OrderFilled
+                    address: 0xc8de41c35fb389286546cf4107102a7656da7037
+                  name: MinipoolStatusChanged
                 status: success
-                network: 1
-            status:
-              - mined
-      gnosisAuctionTransfer:
-        description: Someone purchased bonds from the auction.
-        function: gnosisAuction:transfer
-        trigger:
-          type: transaction
-          transaction:
-            filters:
-              - eventEmitted:
-                  contract:
-                    address: 0x0b7ffc1f4ad541a4ed16b40d8c37f0929158d101
-                  name: ClaimedFromOrder
-                status: success
-                network: 1
-            status:
-              - mined
-      gnosisAuctionBid:
-        description: Someone bid on bonds from the auction.
-        function: gnosisAuction:newSellOrder
-        trigger:
-          type: transaction
-          transaction:
-            filters:
-              - eventEmitted:
-                  contract:
-                    address: 0x0b7ffc1f4ad541a4ed16b40d8c37f0929158d101
-                  name: NewSellOrder
-                status: success
-                network: 1
-            status:
-              - mined
-      gnosisAuctionCancellation:
-        description: Someone cancelled their bid on the auction.
-        function: gnosisAuction:cancellationSellOrder
-        trigger:
-          type: transaction
-          transaction:
-            filters:
-              - eventEmitted:
-                  contract:
-                    address: 0x0b7ffc1f4ad541a4ed16b40d8c37f0929158d101
-                  name: CancellationSellOrder
-                status: success
-                network: 1
+                network: 43114
             status:
               - mined
 project_slug: ""

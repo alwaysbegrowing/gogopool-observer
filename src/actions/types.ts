@@ -10,30 +10,12 @@ export interface TransferEvent extends Event {
   value: BigNumber;
 }
 
-export interface NewSellOrderEvent extends Event {
-  auctionId: BigNumber;
-  userId: BigNumber;
-  buyAmount: BigNumber;
-  sellAmount: BigNumber;
+export interface MinipoolStatusChanged extends Event {
+  nodeID: string;
+  status: BigNumber;
 }
 
-export interface CancellationSellOrderEvent extends Event {
-  auctionId: BigNumber;
-  userId: BigNumber;
-  buyAmount: BigNumber;
-  sellAmount: BigNumber;
-}
-
-export interface ClaimedFromOrderEvent extends Event {
-  auctionId: string;
-  userId: string;
-  buyAmount: BigNumber;
-  sellAmount: BigNumber;
-}
-
-export interface OrderFilledEvent extends Event {
-  maker: string;
-  orderHash: string;
-  remaining: BigNumber;
-  value: BigNumber;
+export interface AVAXDeposited extends Event {
+  by: string;
+  amount: BigNumber;
 }

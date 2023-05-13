@@ -1,4 +1,4 @@
-# Garden-Observer
+# GoGo-Observer
 (re)Actions for on-chain events. Uses Tenderly Actions and Vitest for local development. 
 
 ## Setup
@@ -20,7 +20,7 @@ npm run test
 
 The tests use a payload in the aptly named `payload` folder which contains a single transaction receipt. The tests basically mock having that event triggered and how to respond. The functions are designed to "throw" if the event shouldn't have been responded to. Maybe this was a bad decision. But they early exit which is fun.
 
-I have this in BetterTouchTool set to a hotkey to get the tx receipt. Could use `cast receipt <tx> --rpc-url https://eth.llamarpc.com` as well.
+I have this in BetterTouchTool set to a hotkey to get the tx receipt. Could use `cast receipt <tx> --rpc-url https://api.avax.network/ext/bc/C/rpc` as well.
 
 ```javascript
 async (clipboardContentString) => {
@@ -28,7 +28,7 @@ async (clipboardContentString) => {
     return JSON.stringify(
       (
         await (
-          await fetch("https://eth.llamarpc.com", {
+          await fetch("https://api.avax.network/ext/bc/C/rpc", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: `{"jsonrpc":"2.0","method":"eth_getTransactionReceipt","params":["${clipboardContentString}"],"id":67}`,
