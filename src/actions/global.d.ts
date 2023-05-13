@@ -1,3 +1,4 @@
 declare module "hash-emoji" {
-  export default function(address: string): string;
+  function hashEmoji(input: string): string;
+  export = hashEmoji;
 }

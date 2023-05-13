@@ -6,6 +6,7 @@
     "noUnusedLocals": true,
     "outDir": "out",
     "sourceMap": true,
+    "esModuleInterop": true,
     "strict": true,
     "target": "es2020",
     "resolveJsonModule": true

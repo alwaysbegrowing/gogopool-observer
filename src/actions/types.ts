@@ -15,6 +15,11 @@ export interface MinipoolStatusChanged extends Event {
   status: BigNumber;
 }
 
+export interface Withdrawl extends Event {
+  src: string;
+  wad: BigNumber;
+}
+
 export interface AVAXDeposited extends Event {
   by: string;
   amount: BigNumber;

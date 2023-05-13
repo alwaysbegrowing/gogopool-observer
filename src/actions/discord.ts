@@ -1,111 +1,126 @@
 import { isDev } from "./constants";
-import { MinipoolStatusChanged } from "./types";
 import axios from "axios";
-import { TransactionEvent } from "@tenderly/actions";
 import hash from "hash-emoji";
+import { nodeHexToID } from "./utils";
+import { ethers } from "ethers";
+import { formatDistance } from "date-fns";
 
 export const getEmojiAddress = (address: string) => {
-  return `${hash(address)} ${address.slice(0, 4)}...${address.slice(-4)}`;
+  return `${hash(address)} ${address.slice(0, 6)}...${address.slice(-4)}`;
 };
 
-export const MINIPOOL_PRELAUNCH_TEMPLATE = (
-  transactionEvent: TransactionEvent,
-  minipoolStatusChangedEvent: MinipoolStatusChanged
-) => {
-  return {
-    username: "GoGoObserver 🎈🔭",
-    embeds: [
-      {
-        title: "Minipool [prelaunch]",
-        fields: [...commonFields(transactionEvent, minipoolStatusChangedEvent)],
-      },
-    ],
-  };
+export const getEmojiNodeId = (address: string) => {
+  const emoji = hash(address);
+  const nodeId = nodeHexToID(address);
+  return `${emoji} ${nodeId.slice(0, 11)}...${nodeId.slice(-4)}`;
 };
 
-const commonFields = (
-  transactionEvent: TransactionEvent,
-  minipoolStatusChangedEvent: MinipoolStatusChanged
-) => {
+const commonFields = (nodeId: string, minipoolOwner: string) => {
+  console.log(minipoolOwner);
+
   return [
     {
-      name: "pilot",
+      name: "🧑‍✈️ pilot",
       value: `[${getEmojiAddress(
-        transactionEvent.from
-      )}](https://snowtrace.io/address/${transactionEvent.from})`,
+        ethers.utils.getAddress(minipoolOwner)
+      )}](https://snowtrace.io/address/${minipoolOwner})`,
       inline: true,
     },
     {
-      name: "node ID",
-      value: `[${getEmojiAddress(
-        minipoolStatusChangedEvent.nodeID
-      )}](https://snowtrace.io/address/${minipoolStatusChangedEvent.nodeID})`,
+      name: "🎈 balloon",
+      value: `[${getEmojiNodeId(
+        nodeId
+      )}](https://avascan.info/staking/validator/${nodeHexToID(nodeId)})`,
+      inline: true,
     },
   ];
 };
-
-export const MINIPOOL_LAUNCH_TEMPLATE = (
-  transactionEvent: TransactionEvent,
-  minipoolStatusChangedEvent: MinipoolStatusChanged
+export const MINIPOOL_PRELAUNCH_TEMPLATE = (
+  nodeId: string,
+  minipoolOwner: string
 ) => {
   return {
     username: "GoGoObserver 🎈🔭",
     embeds: [
       {
-        title: "Minipool [launch]",
-        fields: [...commonFields(transactionEvent, minipoolStatusChangedEvent)],
+        title: "A minipool is getting ready.",
+        fields: [...commonFields(nodeId, minipoolOwner)],
       },
     ],
   };
 };
 
-export const MINIPOOL_STAKING_TEMPLATE = (
-  transactionEvent: TransactionEvent,
-  minipoolStatusChangedEvent: MinipoolStatusChanged
+export const MINIPOOL_LAUNCH_TEMPLATE = (
+  nodeId: string,
+  minipoolOwner: string,
+  duration: string
 ) => {
+  const now = new Date();
   return {
     username: "GoGoObserver 🎈🔭",
     embeds: [
       {
-        title: "Minipool [staking]",
-        fields: [...commonFields(transactionEvent, minipoolStatusChangedEvent)],
+        title: "Minipool is ready!",
+        fields: [
+          ...commonFields(nodeId, minipoolOwner),
+          {
+            name: "🕰️ trip duration",
+            value: `${formatDistance(
+              now,
+              new Date(now.getTime() + parseInt(duration) * 1000),
+              {
+                addSuffix: false,
+              }
+            )}`,
+            inline: false,
+          },
+        ],
+      },
+    ],
+  };
+};
+
+export const MINIPOOL_STAKING_TEMPLATE = (nodeId: string, owner: string) => {
+  return {
+    username: "GoGoObserver 🎈🔭",
+    embeds: [
+      {
+        title: "We have liftoff!",
+        fields: [...commonFields(nodeId, owner)],
       },
     ],
   };
 };
 
 export const MINIPOOL_WITHDRAWABLE_TEMPLATE = (
-  transactionEvent: TransactionEvent,
-  minipoolStatusChangedEvent: MinipoolStatusChanged
+  nodeId: string,
+  owner: string
 ) => {
   return {
     username: "GoGoObserver 🎈🔭",
     embeds: [
       {
-        title: "Minipool [withdrawable]",
-        fields: [...commonFields(transactionEvent, minipoolStatusChangedEvent)],
+        title: "Minipool is ready to be withdrawn!",
+        fields: [...commonFields(nodeId, owner)],
       },
     ],
   };
 };
 
-export const MINIPOOL_RESTAKE_TEMPLATE = (
-  transactionEvent: TransactionEvent,
-  minipoolStatusChangedEvent: MinipoolStatusChanged
-) => {
+export const MINIPOOL_RESTAKE_TEMPLATE = (nodeId: string, owner: string) => {
   return {
     username: "GoGoObserver 🎈🔭",
     embeds: [
       {
-        title: "Minipool [restake]",
-        fields: [...commonFields(transactionEvent, minipoolStatusChangedEvent)],
+        title: "Minipool has ended it's flight and restaked!",
+        fields: [...commonFields(nodeId, owner)],
       },
     ],
   };
 };
 
 export const sendWebhook = async (webhookUrl: string, messageToSend: any) => {
-  isDev
+  !isDev
     ? console.log(messageToSend)
     : await axios.post(webhookUrl, messageToSend);
 };
