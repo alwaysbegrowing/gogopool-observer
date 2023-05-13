@@ -202,7 +202,7 @@ export const MINIPOOL_RESTAKE_TEMPLATE = (
 };
 
 export const sendWebhook = async (webhookUrl: string, messageToSend: any) => {
-  !isDev
+  isDev
     ? console.log(messageToSend)
     : await axios.post(webhookUrl, messageToSend);
 };
