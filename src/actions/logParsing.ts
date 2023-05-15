@@ -1,5 +1,12 @@
 import { Log, TransactionEvent } from "@tenderly/actions";
 import { Interface } from "ethers/lib/utils";
+import { GGAVAX_INTERFACE, STAKING_INTERFACE } from "./constants";
+import {
+  GGAVAXDeposit,
+  GGAVAXWithdraw,
+  GGPStaked,
+  GGPWithdrawn,
+} from "./types";
 
 export const getMatchingEvent = <Type>(
   transactionEvent: TransactionEvent,
@@ -35,4 +42,59 @@ export const getMatchingEvents = <Type>(
       address: log.address,
     } as Type;
   });
+};
+export const getGgpStakedEvent = async (
+  transactionEvent: TransactionEvent
+): Promise<GGPStaked | undefined> => {
+  try {
+    return await getMatchingEvent<GGPStaked>(
+      transactionEvent,
+      STAKING_INTERFACE,
+      "GGPStaked"
+    );
+  } catch (e) {
+    return;
+  }
+};
+
+export const getGgpWithdrawnEvent = async (
+  transactionEvent: TransactionEvent
+): Promise<GGPWithdrawn | undefined> => {
+  try {
+    return await getMatchingEvent<GGPWithdrawn>(
+      transactionEvent,
+      STAKING_INTERFACE,
+      "GGPWithdrawn"
+    );
+  } catch (e) {
+    return;
+  }
+};
+
+export const getGgAvaxWithdrawEvent = async (
+  transactionEvent: TransactionEvent
+): Promise<GGAVAXWithdraw | undefined> => {
+  try {
+    return await getMatchingEvent<GGAVAXWithdraw>(
+      transactionEvent,
+      GGAVAX_INTERFACE,
+      "Withdraw"
+    );
+  } catch (e) {
+    return;
+  }
+};
+
+export const getGgAvaxDepositEvent = async (
+  transactionEvent: TransactionEvent
+): Promise<GGAVAXDeposit | undefined> => {
+  try {
+    return await getMatchingEvent<GGAVAXDeposit>(
+      transactionEvent,
+      GGAVAX_INTERFACE,
+      "Deposit"
+    );
+  } catch (e) {
+    return;
+  }
 };
