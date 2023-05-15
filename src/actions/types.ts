@@ -60,3 +60,44 @@ export enum MinipoolStatus {
   FINISHED = "6",
   RESTAKE = "10",
 }
+
+export type Minipool = {
+  index: BigNumber;
+  nodeID: string;
+  status: BigNumber;
+  duration: BigNumber;
+  delegationFee: BigNumber;
+  owner: string;
+  multisigAddr: string;
+  avaxNodeOpAmt: BigNumber;
+  avaxNodeOpInitialAmt: BigNumber;
+  avaxLiquidStakerAmt: BigNumber;
+  txID: string;
+  creationTime: BigNumber;
+  initialStartTime: BigNumber;
+  startTime: BigNumber;
+  endTime: BigNumber;
+  avaxTotalRewardAmt: BigNumber;
+  errorCode: string;
+  ggpSlashAmt: BigNumber;
+  avaxNodeOpRewardAmt: BigNumber;
+  avaxLiquidStakerRewardAmt: BigNumber;
+};
+
+export type StakerInformation = {
+  stakerAddr: string;
+  avaxAssigned: BigNumber;
+  avaxStaked: BigNumber;
+  avaxValidating: BigNumber;
+  avaxValidatingHighWater: BigNumber;
+  ggpRewards: BigNumber;
+  ggpStaked: BigNumber;
+  lastRewardsCycleCompleted: BigNumber;
+  rewardsStartTime: BigNumber;
+  ggpLockedUntil: BigNumber;
+};
+
+export type GgAvaxInformation = {
+  amountAvailableForStaking: BigNumber;
+  stakingTotalAssets: BigNumber;
+};

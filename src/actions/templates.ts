@@ -60,7 +60,7 @@ const pilotField = (
   return {
     name: "🧑‍✈️ pilot",
     value: getEmojiAddress(utils.getAddress(owner)),
-    inline: true,
+    inline: false,
     ...options,
   };
 };
@@ -69,14 +69,14 @@ const balloonField = (nodeId: string): APIEmbedField => {
   return {
     name: "🎈 balloon",
     value: getEmojiNodeId(nodeId),
-    inline: true,
+    inline: false,
   };
 };
 
 const tripDurationField = (duration: string): APIEmbedField => {
   const now = new Date();
   return {
-    name: "🕰️ trip duration",
+    name: "📅 trip duration",
     value: `${formatDistance(
       now,
       new Date(now.getTime() + parseInt(duration) * 1000),
@@ -84,38 +84,78 @@ const tripDurationField = (duration: string): APIEmbedField => {
         addSuffix: false,
       }
     )}`,
-    inline: false,
+    inline: true,
+  };
+};
+
+const endTimeField = (endTime: string): APIEmbedField => {
+  return {
+    name: "🕰️ return",
+    value: `${new Date(parseInt(endTime) * 1000).toLocaleString()}`,
+    inline: true,
   };
 };
 
 const ggpAmountField = (
   amount: BigNumber,
-  subtraction?: boolean
+  options?: Partial<APIEmbedField>
 ): APIEmbedField => {
   return {
-    name: "💰 difference",
-    value: `${subtraction ? "-" : "+"} ${Number(
-      utils.formatUnits(amount, 18)
-    ).toLocaleString()} GGP`,
-    inline: true,
-  };
-};
-
-const ggpTotalStakeField = (amount: BigNumber): APIEmbedField => {
-  return {
-    name: "💰 total stake",
+    name: "amount",
     value: `${Number(utils.formatUnits(amount, 18)).toLocaleString()} GGP`,
     inline: true,
+    ...options,
   };
 };
 
-const ggAvaxAmount = (
+const differenceField = (
+  tokenName: string,
+  difference: BigNumber,
+  total: BigNumber,
+  subtraction?: boolean,
+  options?: Partial<APIEmbedField>
+) => {
+  const oldTotal = subtraction ? total.add(difference) : total.sub(difference);
+  const differenceString = `${Number(
+    utils.formatUnits(oldTotal, 18)
+  ).toLocaleString()} ${tokenName} ${subtraction ? "-" : "+"} ${Number(
+    utils.formatUnits(difference, 18)
+  ).toLocaleString()} ${tokenName} = ${Number(
+    utils.formatUnits(total, 18)
+  ).toLocaleString()} ${tokenName}`;
+
+  return {
+    name: "amount",
+    value: differenceString,
+    ...options,
+  };
+};
+
+const ggpDifferenceField = (
+  difference: BigNumber,
+  total: BigNumber,
+  subtraction?: boolean,
+  options?: Partial<APIEmbedField>
+) => {
+  return differenceField("GGP", difference, total, subtraction, options);
+};
+
+const ggAvaxDifferenceField = (
+  difference: BigNumber,
+  total: BigNumber,
+  subtraction?: boolean,
+  options?: Partial<APIEmbedField>
+) => {
+  return differenceField("ggAVAX", difference, total, subtraction, options);
+};
+
+const ggAvaxAmountField = (
   amount: BigNumber,
   options?: Partial<APIEmbedField>
 ): APIEmbedField => {
   return {
-    name: "💰 amount",
-    value: `${Number(utils.formatUnits(amount, 18)).toLocaleString()} GGAVAX`,
+    name: "amount",
+    value: `${Number(utils.formatUnits(amount, 18)).toLocaleString()} ggAVAX`,
     inline: true,
     ...options,
   };
@@ -137,7 +177,8 @@ export const MINIPOOL_PRELAUNCH_TEMPLATE = (
   transactionEvent: TransactionEvent,
   nodeId: string,
   owner: string,
-  duration: string
+  duration: string,
+  endTime: string
 ) => {
   return {
     components: [
@@ -151,17 +192,18 @@ export const MINIPOOL_PRELAUNCH_TEMPLATE = (
       new EmbedBuilder()
         .setTitle("🌄  Preparing for Takeoff")
         .setDescription(
-          "A minipool is getting ready for a remarkable ride. Node Operator has deposited 1,000 AVAX, and is now waiting on more liquid staking fuel."
+          "A minipool is getting ready for a remarkable ride. Node Operator has deposited 1,000 AVAX and is now waiting on liquid staking fuel."
         )
         .addFields(
           pilotField(owner),
           balloonField(nodeId),
-          tripDurationField(duration)
+          tripDurationField(duration),
+          endTimeField(endTime)
         )
 
-        .setColor(0x33b6ae)
+        .setColor(0x7ddbd5)
         .setFooter({
-          text: "[prelaunch] • [prelaunch] • minipool status change",
+          text: "[minipool status change] • prelaunch",
         }),
     ],
   };
@@ -171,7 +213,8 @@ export const MINIPOOL_LAUNCH_TEMPLATE = (
   transactionEvent: TransactionEvent,
   nodeId: string,
   owner: string,
-  duration: string
+  duration: string,
+  endTime: string
 ) => {
   return {
     components: [
@@ -190,11 +233,12 @@ export const MINIPOOL_LAUNCH_TEMPLATE = (
         .addFields(
           pilotField(owner),
           balloonField(nodeId),
-          tripDurationField(duration)
+          tripDurationField(duration),
+          endTimeField(endTime)
         )
 
-        .setColor(0x33b6ae)
-        .setFooter({ text: "[launched] • minipool status change" }),
+        .setColor(0x7ddbd5)
+        .setFooter({ text: "[minipool status change] • launched" }),
     ],
   };
 };
@@ -203,7 +247,8 @@ export const MINIPOOL_STAKING_TEMPLATE = (
   transactionEvent: TransactionEvent,
   nodeId: string,
   owner: string,
-  duration: string
+  duration: string,
+  endTime: string
 ) => {
   return {
     components: [
@@ -217,16 +262,17 @@ export const MINIPOOL_STAKING_TEMPLATE = (
       new EmbedBuilder()
         .setTitle("⛅  Approached Cruising Altitude")
         .setDescription(
-          "Actively staking and discovering rewards, the minipool floats through the staking skies. It will remain in this lofty state until it's time to land."
+          "Actively validating and discovering rewards, the minipool floats through the staking skies. It will remain in this lofty state until it's time to land."
         )
         .addFields(
           pilotField(owner),
           balloonField(nodeId),
-          tripDurationField(duration)
+          tripDurationField(duration),
+          endTimeField(endTime)
         )
 
-        .setColor(0x33b6ae)
-        .setFooter({ text: "[staking] • minipool status change" }),
+        .setColor(0x7ddbd5)
+        .setFooter({ text: "[minipool status change] • staking" }),
     ],
   };
 };
@@ -235,7 +281,8 @@ export const MINIPOOL_WITHDRAWABLE_TEMPLATE = (
   transactionEvent: TransactionEvent,
   nodeId: string,
   owner: string,
-  duration: string
+  duration: string,
+  endTime: string
 ) => {
   return {
     components: [
@@ -254,11 +301,12 @@ export const MINIPOOL_WITHDRAWABLE_TEMPLATE = (
         .addFields(
           pilotField(owner),
           balloonField(nodeId),
-          tripDurationField(duration)
+          tripDurationField(duration),
+          endTimeField(endTime)
         )
 
-        .setColor(0x33b6ae)
-        .setFooter({ text: "[withdrawable] • minipool status change" }),
+        .setColor(0x7ddbd5)
+        .setFooter({ text: "[minipool status change] • withdrawable" }),
     ],
   };
 };
@@ -267,7 +315,8 @@ export const MINIPOOL_FINISHED_TEMPLATE = (
   transactionEvent: TransactionEvent,
   nodeId: string,
   owner: string,
-  duration: string
+  duration: string,
+  endTime: string
 ) => {
   return {
     components: [
@@ -286,11 +335,12 @@ export const MINIPOOL_FINISHED_TEMPLATE = (
         .addFields(
           pilotField(owner),
           balloonField(nodeId),
-          tripDurationField(duration)
+          tripDurationField(duration),
+          endTimeField(endTime)
         )
 
-        .setColor(0x33b6ae)
-        .setFooter({ text: "[finished] • minipool status change" }),
+        .setColor(0x7ddbd5)
+        .setFooter({ text: "[minipool status change] • finished" }),
     ],
   };
 };
@@ -299,7 +349,8 @@ export const MINIPOOL_CANCELED_TEMPLATE = (
   transactionEvent: TransactionEvent,
   nodeId: string,
   owner: string,
-  duration: string
+  duration: string,
+  endTime: string
 ) => {
   return {
     components: [
@@ -318,11 +369,12 @@ export const MINIPOOL_CANCELED_TEMPLATE = (
         .addFields(
           pilotField(owner),
           balloonField(nodeId),
-          tripDurationField(duration)
+          tripDurationField(duration),
+          endTimeField(endTime)
         )
 
         .setColor(0x33b6ae)
-        .setFooter({ text: "[canceled] • minipool status change" }),
+        .setFooter({ text: "[minipool status change] • canceled" }),
     ],
   };
 };
@@ -331,7 +383,8 @@ export const MINIPOOL_ERROR_TEMPLATE = (
   transactionEvent: TransactionEvent,
   nodeId: string,
   owner: string,
-  duration: string
+  duration: string,
+  endTime: string
 ) => {
   return {
     components: [
@@ -350,11 +403,12 @@ export const MINIPOOL_ERROR_TEMPLATE = (
         .addFields(
           pilotField(owner),
           balloonField(nodeId),
-          tripDurationField(duration)
+          tripDurationField(duration),
+          endTimeField(endTime)
         )
 
         .setColor(0x33b6ae)
-        .setFooter({ text: "[error] • minipool status change" }),
+        .setFooter({ text: "[minipool status change] • error" }),
     ],
   };
 };
@@ -363,7 +417,8 @@ export const MINIPOOL_RESTAKE_TEMPLATE = (
   transactionEvent: TransactionEvent,
   nodeId: string,
   owner: string,
-  duration: string
+  duration: string,
+  endTime: string
 ) => {
   return {
     components: [
@@ -382,10 +437,11 @@ export const MINIPOOL_RESTAKE_TEMPLATE = (
         .addFields(
           pilotField(owner),
           balloonField(nodeId),
-          tripDurationField(duration)
+          tripDurationField(duration),
+          endTimeField(endTime)
         )
-        .setColor(0x33b6ae)
-        .setFooter({ text: "[launched] • minipool status change" }),
+        .setColor(0x7ddbd5)
+        .setFooter({ text: "[minipool status change] • launched" }),
     ],
   };
 };
@@ -406,14 +462,18 @@ export const GGP_STAKING_STAKE_TEMPLATE = (
     embeds: [
       new EmbedBuilder()
         .setTitle("⬆️  GGP Tokens Onboarded.")
-        .setDescription("A Node Operator has staked GGP to their minipool(s)")
+        .setDescription("A Node Operator has staked GGP to their minipool(s).")
         .addFields(
-          ggpAmountField(amount),
-          ggpTotalStakeField(totalStake),
-          pilotField(owner, { inline: false })
+          pilotField(owner, { inline: false }),
+          ggpAmountField(amount, {
+            name: "stake amount",
+          }),
+          ggpDifferenceField(amount, totalStake, false, {
+            name: "total stake",
+          })
         )
-        .setColor(0xa849c0)
-        .setFooter({ text: "[stake] • staking" }),
+        .setColor(0xcb92d9)
+        .setFooter({ text: "[staking] • stake" }),
     ],
   };
 };
@@ -435,15 +495,19 @@ export const GGP_STAKING_WITHDRAW_TEMPLATE = (
       new EmbedBuilder()
         .setTitle("⬇️  GGP Tokens Dropped Overboard.")
         .setDescription(
-          "A Node Operator has un-staked GGP from their minipool(s)"
+          "A Node Operator has un-staked GGP from their minipool(s)."
         )
         .addFields(
-          ggpAmountField(amount, true),
-          ggpTotalStakeField(totalStake),
-          pilotField(owner, { inline: false })
+          pilotField(owner, { inline: false }),
+          ggpAmountField(amount, {
+            name: "un-stake amount",
+          }),
+          ggpDifferenceField(amount, totalStake, true, {
+            name: "total stake",
+          })
         )
         .setColor(0xa849c0)
-        .setFooter({ text: "[withdraw] • staking" }),
+        .setFooter({ text: "[staking] • withdraw" }),
     ],
   };
 };
@@ -452,8 +516,7 @@ export const GGAVAX_DEPOSIT_TEMPLATE = (
   transactionEvent: TransactionEvent,
   assets: BigNumber,
   shares: BigNumber,
-  amountAvailableForStaking: BigNumber,
-  stakingTotalAssets: BigNumber
+  amountAvailableForStaking: BigNumber
 ) => {
   return {
     components: [
@@ -464,20 +527,19 @@ export const GGAVAX_DEPOSIT_TEMPLATE = (
     ],
     embeds: [
       new EmbedBuilder()
-        .setTitle("⬆️ GGAVAX Tokens Filled Up.")
+        .setTitle("⬆️ ggAVAX Tokens Filled Up.")
         .setDescription(
-          "GGAVAX tokens have been added to the liquid staking pool."
+          "ggAVAX tokens have been added to the liquid staking pool."
         )
         .addFields(
           liquidStakerField(transactionEvent.from, { inline: false }),
-          ggAvaxAmount(assets, { name: "Amount added" }),
-          ggAvaxAmount(amountAvailableForStaking, {
-            name: "Amount Available for Staking",
-          }),
-          ggAvaxAmount(stakingTotalAssets, { name: "Total Assets" })
+          ggAvaxAmountField(assets, { name: "deposit amount" }),
+          ggAvaxDifferenceField(assets, amountAvailableForStaking, false, {
+            name: "available for staking",
+          })
         )
-        .setColor(0x447969)
-        .setFooter({ text: "[deposit] • ggavax" }),
+        .setColor(0x8aa0d1)
+        .setFooter({ text: "[ggAVAX] • deposit" }),
     ],
   };
 };
@@ -486,8 +548,7 @@ export const GGAVAX_WITHDRAW_TEMPLATE = (
   transactionEvent: TransactionEvent,
   assets: BigNumber,
   shares: BigNumber,
-  amountAvailableForStaking: BigNumber,
-  stakingTotalAssets: BigNumber
+  amountAvailableForStaking: BigNumber
 ) => {
   return {
     components: [
@@ -498,20 +559,19 @@ export const GGAVAX_WITHDRAW_TEMPLATE = (
     ],
     embeds: [
       new EmbedBuilder()
-        .setTitle("⬇️ GGAVAX Tokens Drained.")
+        .setTitle("⬇️ ggAVAX Tokens Drained.")
         .setDescription(
-          "GGAVAX tokens have been removed from the liquid staking pool."
+          "ggAVAX tokens have been removed from the liquid staking pool."
         )
         .addFields(
           liquidStakerField(transactionEvent.from, { inline: false }),
-          ggAvaxAmount(assets, { name: "Amount removed" }),
-          ggAvaxAmount(amountAvailableForStaking, {
-            name: "Amount Available for Staking",
-          }),
-          ggAvaxAmount(stakingTotalAssets, { name: "Total Assets" })
+          ggAvaxAmountField(assets, { name: "withdraw amount" }),
+          ggAvaxDifferenceField(assets, amountAvailableForStaking, true, {
+            name: "available for staking",
+          })
         )
-        .setColor(0x447969)
-        .setFooter({ text: "[withdraw] • ggavax" }),
+        .setColor(0x4363aa)
+        .setFooter({ text: "[ggAVAX] • withdraw" }),
     ],
   };
 };

@@ -15,22 +15,25 @@ import {
   MINIPOOL_WITHDRAWABLE_TEMPLATE,
 } from "./templates";
 import { getMatchingEvents } from "./logParsing";
-import { MinipoolStatus, MinipoolStatusChanged } from "./types";
+import { Minipool, MinipoolStatus, MinipoolStatusChanged } from "./types";
 import { jsonRpcProvider } from "./ethers";
 import { WebhookMessageCreateOptions } from "discord.js";
 
-export const getMinipoolDataFromNodeId = async (nodeID: string) => {
-  const minipool = await jsonRpcProvider.getProvider().call({
+export const getMinipoolDataFromNodeId = async (
+  nodeID: string
+): Promise<Minipool> => {
+  const minipoolCallResult = await jsonRpcProvider.getProvider().call({
     to: MINIPOOL_MANAGER_ADDRESS,
     data: MINIPOOL_MANAGER_INTERFACE.encodeFunctionData("getMinipoolByNodeID", [
       nodeID,
     ]),
   });
-  const { owner, duration } = MINIPOOL_MANAGER_INTERFACE.decodeFunctionResult(
+  const minipoolResult = MINIPOOL_MANAGER_INTERFACE.decodeFunctionResult(
     "getMinipoolByNodeID",
-    minipool
+    minipoolCallResult
   )[0];
-  return { owner, duration };
+  console.log(minipoolResult);
+  return minipoolResult;
 };
 
 const getMessageFromStatusChangedEvent = async (
@@ -42,21 +45,23 @@ const getMessageFromStatusChangedEvent = async (
   if (!status) {
     status = statusChangedEvent.status.toString() as MinipoolStatus;
   }
-  const { owner, duration } = await getMinipoolDataFromNodeId(nodeID);
+  const { owner, duration, startTime } = await getMinipoolDataFromNodeId(nodeID);
   switch (status.toString()) {
     case MinipoolStatus.PRELAUNCH:
       return MINIPOOL_PRELAUNCH_TEMPLATE(
         transactionEvent,
         nodeID,
         transactionEvent.from,
-        duration
+        duration.toString(),
+        startTime.add(duration).toString()
       );
     case MinipoolStatus.LAUNCH:
       return MINIPOOL_LAUNCH_TEMPLATE(
         transactionEvent,
         nodeID,
         owner,
-        duration
+        duration.toString(),
+        startTime.add(duration).toString()
       );
 
     case MinipoolStatus.STAKING:
@@ -64,7 +69,8 @@ const getMessageFromStatusChangedEvent = async (
         transactionEvent,
         nodeID,
         owner,
-        duration
+        duration.toString(),
+        startTime.add(duration).toString()
       );
 
     case MinipoolStatus.WITHDRAWABLE:
@@ -72,18 +78,21 @@ const getMessageFromStatusChangedEvent = async (
         transactionEvent,
         nodeID,
         owner,
-        duration
+        duration.toString(),
+        startTime.add(duration).toString()
       );
 
     case MinipoolStatus.ERROR:
-      return MINIPOOL_ERROR_TEMPLATE(transactionEvent, nodeID, owner, duration);
+      return MINIPOOL_ERROR_TEMPLATE(transactionEvent, nodeID, owner, duration.toString(),
+      startTime.add(duration).toString());
 
     case MinipoolStatus.CANCELED:
       return MINIPOOL_CANCELED_TEMPLATE(
         transactionEvent,
         nodeID,
         owner,
-        duration
+        duration.toString(),
+        startTime.add(duration).toString()
       );
 
     case MinipoolStatus.FINISHED:
@@ -91,7 +100,8 @@ const getMessageFromStatusChangedEvent = async (
         transactionEvent,
         nodeID,
         owner,
-        duration
+        duration.toString(),
+        startTime.add(duration).toString()
       );
 
     case MinipoolStatus.RESTAKE:
@@ -99,7 +109,8 @@ const getMessageFromStatusChangedEvent = async (
         transactionEvent,
         nodeID,
         owner,
-        duration
+        duration.toString(),
+        startTime.add(duration).toString()
       );
 
     default:
@@ -111,7 +122,7 @@ export const minipoolStatusChange = async (context: Context, event: Event) => {
   discordClient.init(await context.secrets.get("MANGO_WEBHOOK_URL"));
   jsonRpcProvider.init(await context.secrets.get("JSON_RPC_URL"));
   const transactionEvent = event as TransactionEvent;
-  
+
   const statusChangedEvents = getMatchingEvents<MinipoolStatusChanged>(
     transactionEvent,
     MINIPOOL_MANAGER_INTERFACE,

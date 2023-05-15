@@ -41,7 +41,7 @@ actions:
             status:
               - mined
       ggavax:
-        description: GGAVAX changed.
+        description: ggAVAX changed.
         function: ggavax:stakeOrWithdraw
         trigger:
           type: transaction

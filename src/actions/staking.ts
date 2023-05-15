@@ -5,10 +5,9 @@ import {
   GGP_STAKING_STAKE_TEMPLATE,
   GGP_STAKING_WITHDRAW_TEMPLATE,
 } from "./templates";
-import { GGPStaked, GGPWithdrawn } from "./types";
+import { GGPStaked, GGPWithdrawn, StakerInformation } from "./types";
 import { jsonRpcProvider } from "./ethers";
 import { STAKING_ADDRESS, STAKING_INTERFACE } from "./constants";
-import { BigNumber } from "ethers";
 
 const handleGgpStakedEvent = async (
   transactionEvent: TransactionEvent,
@@ -30,19 +29,6 @@ const handleGgpWithdrawnEvent = async (
   await discordClient.sendMessage(
     GGP_STAKING_WITHDRAW_TEMPLATE(transactionEvent, to, amount, ggpStaked)
   );
-};
-
-type StakerInformation = {
-  stakerAddr: string;
-  avaxAssigned: BigNumber;
-  avaxStaked: BigNumber;
-  avaxValidating: BigNumber;
-  avaxValidatingHighWater: BigNumber;
-  ggpRewards: BigNumber;
-  ggpStaked: BigNumber;
-  lastRewardsCycleCompleted: BigNumber;
-  rewardsStartTime: BigNumber;
-  ggpLockedUntil: BigNumber;
 };
 
 const getStakerInformation = async (
