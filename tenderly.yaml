@@ -19,4 +19,46 @@ actions:
                 network: 43114
             status:
               - mined
+      staking:
+        description: Staking changed.
+        function: staking:stakeOrWithdraw
+        trigger:
+          type: transaction
+          transaction:
+            filters:
+              - network: 43114
+                eventEmitted:
+                  contract:
+                    address: 0x9946e68490d71fe976951e360f295c4cf8531d00
+                  name: GGPStaked
+                status: success
+              - network: 43114
+                eventEmitted:
+                  contract:
+                    address: 0x9946e68490d71fe976951e360f295c4cf8531d00
+                  name: GGPWithdrawn
+                status: success
+            status:
+              - mined
+      ggavax:
+        description: GGAVAX changed.
+        function: ggavax:stakeOrWithdraw
+        trigger:
+          type: transaction
+          transaction:
+            filters:
+              - network: 43114
+                eventEmitted:
+                  contract:
+                    address: 0xA25EaF2906FA1a3a13EdAc9B9657108Af7B703e3
+                  name: Deposit
+                status: success
+              - network: 43114
+                eventEmitted:
+                  contract:
+                    address: 0xA25EaF2906FA1a3a13EdAc9B9657108Af7B703e3
+                  name: Withdraw
+                status: success
+            status:
+              - mined
 project_slug: ""
