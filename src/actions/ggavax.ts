@@ -5,6 +5,7 @@ import { GGAVAX_DEPOSIT_TEMPLATE, GGAVAX_WITHDRAW_TEMPLATE } from "./templates";
 import { GGAVAXDeposit, GGAVAXWithdraw, GgAvaxInformation } from "./types";
 import { jsonRpcProvider } from "./ethers";
 import { GGAVAX_ADDRESS, GGAVAX_INTERFACE } from "./constants";
+import { initServices } from "./utils";
 
 const handleGgAvaxDepositEvent = async (
   transactionEvent: TransactionEvent,
@@ -67,8 +68,7 @@ const getGgAvaxInformation = async (): Promise<GgAvaxInformation> => {
 };
 
 export const stakeOrWithdraw = async (context: Context, event: Event) => {
-  discordClient.init(await context.secrets.get("MANGO_WEBHOOK_URL"));
-  jsonRpcProvider.init(await context.secrets.get("JSON_RPC_URL"));
+  await initServices(context)
   const transactionEvent = event as TransactionEvent;
 
   const ggAvaxEvent = await getGgAvaxDepositEvent(transactionEvent);

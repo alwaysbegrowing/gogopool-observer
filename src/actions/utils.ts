@@ -3,6 +3,13 @@ import { ethers } from "ethers";
 import { BinTools } from "avalanche";
 import { Buffer } from "buffer/"; // note: the slash is important!
 import ms from "ms";
+import { Context } from "@tenderly/actions";
+import { discordClient } from "./discord";
+import { jsonRpcProvider } from "./ethers";
+import {
+  DISCORD_WEBHOOK_URL_SECRET_NAME,
+  JSON_RPC_URL_SECRET_NAME,
+} from "./constants";
 
 const bintools = BinTools.getInstance();
 
@@ -107,4 +114,11 @@ export const sanitizeNumbers = (input: string): string => {
     return "0";
   }
   return s;
+};
+
+export const initServices = async (context: Context) => {
+  discordClient.init(
+    await context.secrets.get(DISCORD_WEBHOOK_URL_SECRET_NAME)
+  );
+  jsonRpcProvider.init(await context.secrets.get(JSON_RPC_URL_SECRET_NAME));
 };

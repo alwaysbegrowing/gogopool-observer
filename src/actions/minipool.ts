@@ -18,6 +18,7 @@ import { getMatchingEvents } from "./logParsing";
 import { Minipool, MinipoolStatus, MinipoolStatusChanged } from "./types";
 import { jsonRpcProvider } from "./ethers";
 import { WebhookMessageCreateOptions } from "discord.js";
+import { initServices } from "./utils";
 
 export const getMinipoolDataFromNodeId = async (
   nodeID: string
@@ -119,8 +120,7 @@ const getMessageFromStatusChangedEvent = async (
 };
 
 export const minipoolStatusChange = async (context: Context, event: Event) => {
-  discordClient.init(await context.secrets.get("MANGO_WEBHOOK_URL"));
-  jsonRpcProvider.init(await context.secrets.get("JSON_RPC_URL"));
+  await initServices(context)
   const transactionEvent = event as TransactionEvent;
 
   const statusChangedEvents = getMatchingEvents<MinipoolStatusChanged>(

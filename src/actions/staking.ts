@@ -8,6 +8,7 @@ import {
 import { GGPStaked, GGPWithdrawn, StakerInformation } from "./types";
 import { jsonRpcProvider } from "./ethers";
 import { STAKING_ADDRESS, STAKING_INTERFACE } from "./constants";
+import { initServices } from "./utils";
 
 const handleGgpStakedEvent = async (
   transactionEvent: TransactionEvent,
@@ -57,8 +58,7 @@ const getStakerInformation = async (
 };
 
 export const stakeOrWithdraw = async (context: Context, event: Event) => {
-  discordClient.init(await context.secrets.get("MANGO_WEBHOOK_URL"));
-  jsonRpcProvider.init(await context.secrets.get("JSON_RPC_URL"));
+  await initServices(context)
   const transactionEvent = event as TransactionEvent;
 
   const ggpStakedEvent = await getGgpStakedEvent(transactionEvent);
