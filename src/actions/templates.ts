@@ -60,7 +60,7 @@ const pilotField = (
   return {
     name: "🧑‍✈️ pilot",
     value: getEmojiAddress(utils.getAddress(owner)),
-    inline: false,
+    inline: true,
     ...options,
   };
 };
@@ -69,7 +69,7 @@ const balloonField = (nodeId: string): APIEmbedField => {
   return {
     name: "🎈 balloon",
     value: getEmojiNodeId(nodeId),
-    inline: false,
+    inline: true,
   };
 };
 
@@ -197,8 +197,7 @@ export const MINIPOOL_PRELAUNCH_TEMPLATE = (
         .addFields(
           pilotField(owner),
           balloonField(nodeId),
-          tripDurationField(duration),
-          endTimeField(endTime)
+          tripDurationField(duration)
         )
 
         .setColor(0x7ddbd5)
@@ -233,8 +232,7 @@ export const MINIPOOL_LAUNCH_TEMPLATE = (
         .addFields(
           pilotField(owner),
           balloonField(nodeId),
-          tripDurationField(duration),
-          endTimeField(endTime)
+          tripDurationField(duration)
         )
 
         .setColor(0x7ddbd5)
@@ -301,8 +299,7 @@ export const MINIPOOL_WITHDRAWABLE_TEMPLATE = (
         .addFields(
           pilotField(owner),
           balloonField(nodeId),
-          tripDurationField(duration),
-          endTimeField(endTime)
+          tripDurationField(duration)
         )
 
         .setColor(0x7ddbd5)
@@ -461,10 +458,10 @@ export const GGP_STAKING_STAKE_TEMPLATE = (
     ],
     embeds: [
       new EmbedBuilder()
-        .setTitle("⬆️  GGP Tokens Onboarded.")
+        .setTitle("⬆️  GGP Onboarded.")
         .setDescription("A Node Operator has staked GGP to their minipool(s).")
         .addFields(
-          pilotField(owner, { inline: false }),
+          pilotField(owner),
           ggpAmountField(amount, {
             name: "stake amount",
           }),
@@ -493,7 +490,7 @@ export const GGP_STAKING_WITHDRAW_TEMPLATE = (
     ],
     embeds: [
       new EmbedBuilder()
-        .setTitle("⬇️  GGP Tokens Dropped Overboard.")
+        .setTitle("⬇️  GGP Dropped Overboard.")
         .setDescription(
           "A Node Operator has un-staked GGP from their minipool(s)."
         )
@@ -527,13 +524,13 @@ export const GGAVAX_DEPOSIT_TEMPLATE = (
     ],
     embeds: [
       new EmbedBuilder()
-        .setTitle("⬆️ ggAVAX Tokens Filled Up.")
+        .setTitle("⬆️ ggAVAX Fuel Added.")
         .setDescription(
           "ggAVAX tokens have been added to the liquid staking pool."
         )
         .addFields(
           liquidStakerField(transactionEvent.from, { inline: false }),
-          ggAvaxAmountField(assets, { name: "deposit amount" }),
+          ggAvaxAmountField(assets, { name: "deposit amount", inline: true }),
           ggAvaxDifferenceField(assets, amountAvailableForStaking, false, {
             name: "available for staking",
           })
@@ -559,7 +556,7 @@ export const GGAVAX_WITHDRAW_TEMPLATE = (
     ],
     embeds: [
       new EmbedBuilder()
-        .setTitle("⬇️ ggAVAX Tokens Drained.")
+        .setTitle("⬇️ ggAVAX Fuel Drained.")
         .setDescription(
           "ggAVAX tokens have been removed from the liquid staking pool."
         )
