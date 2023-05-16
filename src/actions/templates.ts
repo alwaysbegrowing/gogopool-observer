@@ -140,13 +140,27 @@ const ggpDifferenceField = (
   return differenceField("GGP", difference, total, subtraction, options);
 };
 
-const ggAvaxDifferenceField = (
+const avaxDifferenceField = (
   difference: BigNumber,
   total: BigNumber,
   subtraction?: boolean,
   options?: Partial<APIEmbedField>
 ) => {
-  return differenceField("ggAVAX", difference, total, subtraction, options);
+  return differenceField("AVAX", difference, total, subtraction, options);
+};
+
+const avaxAmountField = (
+  amount: BigNumber,
+  options?: Partial<APIEmbedField>
+): APIEmbedField => {
+  return {
+    name: "amount",
+    value: `${Number(utils.formatUnits(amount, 18)).toLocaleString("en-us", {
+      minimumFractionDigits: 4,
+    })} AVAX`,
+    inline: true,
+    ...options,
+  };
 };
 
 const ggAvaxAmountField = (
@@ -155,7 +169,9 @@ const ggAvaxAmountField = (
 ): APIEmbedField => {
   return {
     name: "amount",
-    value: `${Number(utils.formatUnits(amount, 18)).toLocaleString()} ggAVAX`,
+    value: `${Number(utils.formatUnits(amount, 18)).toLocaleString("en-us", {
+      minimumFractionDigits: 4,
+    })} ggAVAX`,
     inline: true,
     ...options,
   };
@@ -524,14 +540,15 @@ export const GGAVAX_DEPOSIT_TEMPLATE = (
     ],
     embeds: [
       new EmbedBuilder()
-        .setTitle("⬆️ ggAVAX Fuel Added.")
+        .setTitle("⬆️ AVAX Fuel Added.")
         .setDescription(
-          "ggAVAX tokens have been added to the liquid staking pool."
+          "AVAX has been deposited to the liquid staking pool and shares of ggAVAX have been minted."
         )
         .addFields(
           liquidStakerField(transactionEvent.from, { inline: false }),
-          ggAvaxAmountField(assets, { name: "deposit amount", inline: true }),
-          ggAvaxDifferenceField(assets, amountAvailableForStaking, false, {
+          avaxAmountField(assets, { name: "amount deposited", inline: true }),
+          ggAvaxAmountField(shares, { name: "shares minted" }),
+          avaxDifferenceField(assets, amountAvailableForStaking, false, {
             name: "available for staking",
           })
         )
@@ -556,14 +573,15 @@ export const GGAVAX_WITHDRAW_TEMPLATE = (
     ],
     embeds: [
       new EmbedBuilder()
-        .setTitle("⬇️ ggAVAX Fuel Drained.")
+        .setTitle("⬇️ AVAX Fuel Drained.")
         .setDescription(
-          "ggAVAX tokens have been removed from the liquid staking pool."
+          "AVAX has been withdrawn from the liquid staking pool and shares of ggAVAX have been burned."
         )
         .addFields(
           liquidStakerField(transactionEvent.from, { inline: false }),
-          ggAvaxAmountField(assets, { name: "withdraw amount" }),
-          ggAvaxDifferenceField(assets, amountAvailableForStaking, true, {
+          ggAvaxAmountField(shares, { name: "shares burned" }),
+          avaxAmountField(assets, { name: "amount withdrawn" }),
+          avaxDifferenceField(assets, amountAvailableForStaking, true, {
             name: "available for staking",
           })
         )
