@@ -1,11 +1,11 @@
 import { Context, Event, TransactionEvent } from "@tenderly/actions";
-import { discordClient } from "./discord";
 import { getGgAvaxDepositEvent, getGgAvaxWithdrawEvent } from "./logParsing";
 import { GGAVAX_DEPOSIT_TEMPLATE, GGAVAX_WITHDRAW_TEMPLATE } from "./templates";
 import { GGAVAXDeposit, GGAVAXWithdraw, GgAvaxInformation } from "./types";
 import { jsonRpcProvider } from "./ethers";
 import { GGAVAX_ADDRESS, GGAVAX_INTERFACE } from "./constants";
 import { initServices } from "./utils";
+import { emitter } from "./emitter";
 
 const handleGgAvaxDepositEvent = async (
   transactionEvent: TransactionEvent,
@@ -13,7 +13,7 @@ const handleGgAvaxDepositEvent = async (
 ) => {
   const { assets, shares } = ggpStakedEvent;
   const { amountAvailableForStaking } = await getGgAvaxInformation();
-  await discordClient.sendMessage(
+  await emitter.emit(
     GGAVAX_DEPOSIT_TEMPLATE(
       transactionEvent,
       assets,
@@ -29,7 +29,7 @@ const handleGgAvaxEvent = async (
 ) => {
   const { assets, shares } = ggpWithdrawnEvent;
   const { amountAvailableForStaking } = await getGgAvaxInformation();
-  await discordClient.sendMessage(
+  await emitter.emit(
     GGAVAX_WITHDRAW_TEMPLATE(
       transactionEvent,
       assets,
@@ -68,7 +68,7 @@ const getGgAvaxInformation = async (): Promise<GgAvaxInformation> => {
 };
 
 export const stakeOrWithdraw = async (context: Context, event: Event) => {
-  await initServices(context)
+  await initServices(context);
   const transactionEvent = event as TransactionEvent;
 
   const ggAvaxEvent = await getGgAvaxDepositEvent(transactionEvent);

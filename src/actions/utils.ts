@@ -7,9 +7,14 @@ import { Context } from "@tenderly/actions";
 import { discordClient } from "./discord";
 import { jsonRpcProvider } from "./ethers";
 import {
+  DATABASE_COLLECTION_SECRET_NAME,
+  DATABASE_NAME_SECRET_NAME,
+  DATABASE_URI_SECRET_NAME,
   DISCORD_WEBHOOK_URL_SECRET_NAME,
   JSON_RPC_URL_SECRET_NAME,
 } from "./constants";
+import { databaseClient } from "./database";
+import { emitter } from "./emitter";
 
 const bintools = BinTools.getInstance();
 
@@ -117,8 +122,16 @@ export const sanitizeNumbers = (input: string): string => {
 };
 
 export const initServices = async (context: Context) => {
+  jsonRpcProvider.init(await context.secrets.get(JSON_RPC_URL_SECRET_NAME));
   discordClient.init(
     await context.secrets.get(DISCORD_WEBHOOK_URL_SECRET_NAME)
   );
-  jsonRpcProvider.init(await context.secrets.get(JSON_RPC_URL_SECRET_NAME));
+  emitter.addClient(discordClient);
+  await databaseClient.init(
+    await context.secrets.get(DATABASE_URI_SECRET_NAME),
+    await context.secrets.get(DATABASE_NAME_SECRET_NAME),
+    await context.secrets.get(DATABASE_COLLECTION_SECRET_NAME)
+  );
+
+  emitter.addClient(databaseClient);
 };

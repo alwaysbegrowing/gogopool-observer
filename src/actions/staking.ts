@@ -1,5 +1,4 @@
 import { Context, Event, TransactionEvent } from "@tenderly/actions";
-import { discordClient } from "./discord";
 import { getGgpStakedEvent, getGgpWithdrawnEvent } from "./logParsing";
 import {
   GGP_STAKING_STAKE_TEMPLATE,
@@ -9,6 +8,7 @@ import { GGPStaked, GGPWithdrawn, StakerInformation } from "./types";
 import { jsonRpcProvider } from "./ethers";
 import { STAKING_ADDRESS, STAKING_INTERFACE } from "./constants";
 import { initServices } from "./utils";
+import { emitter } from "./emitter";
 
 const handleGgpStakedEvent = async (
   transactionEvent: TransactionEvent,
@@ -16,7 +16,7 @@ const handleGgpStakedEvent = async (
 ) => {
   const { from, amount } = ggpStakedEvent;
   const { ggpStaked } = await getStakerInformation(from);
-  await discordClient.sendMessage(
+  await emitter.emit(
     GGP_STAKING_STAKE_TEMPLATE(transactionEvent, from, amount, ggpStaked)
   );
 };
@@ -27,7 +27,7 @@ const handleGgpWithdrawnEvent = async (
 ) => {
   const { to, amount } = ggpWithdrawnEvent;
   const { ggpStaked } = await getStakerInformation(to);
-  await discordClient.sendMessage(
+  await emitter.emit(
     GGP_STAKING_WITHDRAW_TEMPLATE(transactionEvent, to, amount, ggpStaked)
   );
 };
@@ -58,7 +58,7 @@ const getStakerInformation = async (
 };
 
 export const stakeOrWithdraw = async (context: Context, event: Event) => {
-  await initServices(context)
+  await initServices(context);
   const transactionEvent = event as TransactionEvent;
 
   const ggpStakedEvent = await getGgpStakedEvent(transactionEvent);

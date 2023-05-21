@@ -3,7 +3,6 @@ import {
   MINIPOOL_MANAGER_ADDRESS,
   MINIPOOL_MANAGER_INTERFACE,
 } from "./constants";
-import { discordClient } from "./discord";
 import {
   MINIPOOL_CANCELED_TEMPLATE,
   MINIPOOL_ERROR_TEMPLATE,
@@ -19,6 +18,7 @@ import { Minipool, MinipoolStatus, MinipoolStatusChanged } from "./types";
 import { jsonRpcProvider } from "./ethers";
 import { WebhookMessageCreateOptions } from "discord.js";
 import { initServices } from "./utils";
+import { emitter } from "./emitter";
 
 export const getMinipoolDataFromNodeId = async (
   nodeID: string
@@ -33,7 +33,6 @@ export const getMinipoolDataFromNodeId = async (
     "getMinipoolByNodeID",
     minipoolCallResult
   )[0];
-  console.log(minipoolResult);
   return minipoolResult;
 };
 
@@ -147,5 +146,5 @@ export const minipoolStatusChange = async (context: Context, event: Event) => {
   if (!message) {
     throw new Error("message not found");
   }
-  await discordClient.sendMessage(message);
+  await emitter.emit(message);
 };

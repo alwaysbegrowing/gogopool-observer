@@ -1,10 +1,10 @@
-import { isDev } from "./constants";
-import axios from "axios";
 import { WebhookClient, WebhookMessageCreateOptions } from "discord.js";
+import { Client } from "./emitter";
 
-class DiscordWebhookClient {
+export class DiscordWebhookClient extends Client {
   _webhookClient: WebhookClient | null;
   constructor() {
+    super();
     this._webhookClient = null;
   }
 
@@ -26,9 +26,3 @@ class DiscordWebhookClient {
 }
 
 export const discordClient = new DiscordWebhookClient();
-
-export const sendWebhook = async (webhookUrl: string, messageToSend: any) => {
-  isDev
-    ? console.log(messageToSend)
-    : await axios.post(webhookUrl, messageToSend);
-};
