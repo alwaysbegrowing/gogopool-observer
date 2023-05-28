@@ -7,6 +7,7 @@ export class DatabaseClient extends Client {
   _databaseUrl: string | null;
   _databaseName: string | null;
   _collectionName: string | null;
+  clientId: string = "database";
   constructor() {
     super();
     this._databaseClient = null;

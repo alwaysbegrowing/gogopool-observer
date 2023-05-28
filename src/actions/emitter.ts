@@ -2,18 +2,25 @@ import { WebhookMessageCreateOptions } from "discord.js";
 
 export abstract class Client {
   abstract sendMessage(message: WebhookMessageCreateOptions): Promise<void>;
+  abstract clientId: string; // This should be a unique id to identify the client
 }
 
 export class Emitter {
-  _clients: Client[];
+  private _clients: Map<string, Client>; // Use a Map instead of an array to easily check for duplicates
+
   constructor() {
-    this._clients = [];
+    this._clients = new Map();
   }
+
   addClient(client: Client) {
-    this._clients.push(client);
+    if (this._clients.has(client.clientId)) {
+      throw new Error("Client already added");
+    }
+    this._clients.set(client.clientId, client);
   }
+
   async emit(message: WebhookMessageCreateOptions) {
-    const messagePromises = this._clients.map((client) =>
+    const messagePromises = Array.from(this._clients.values()).map((client) =>
       client.sendMessage(message)
     );
     await Promise.all(messagePromises);

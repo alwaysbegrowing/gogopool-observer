@@ -3,6 +3,7 @@ import { Client } from "./emitter";
 
 export class DiscordWebhookClient extends Client {
   _webhookClient: WebhookClient | null;
+  clientId: string = "discord";
   constructor() {
     super();
     this._webhookClient = null;
