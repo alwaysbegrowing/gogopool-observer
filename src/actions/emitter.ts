@@ -14,7 +14,7 @@ export class Emitter {
 
   addClient(client: Client) {
     if (this._clients.has(client.clientId)) {
-      throw new Error("Client already added");
+      return;
     }
     this._clients.set(client.clientId, client);
   }
