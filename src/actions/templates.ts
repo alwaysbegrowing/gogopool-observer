@@ -481,7 +481,11 @@ export const GGP_STAKING_STAKE_TEMPLATE = (
   totalStake: BigNumber,
   isNodeOperator: boolean
 ) => {
-  const actor = isNodeOperator ? "A Node Operator" : "Someone";
+  const stakingMessage = (isNodeOperator: boolean) =>
+    isNodeOperator
+      ? "A Node Operator has staked GGP to their minipool(s)."
+      : "Someone has staked GGP.";
+
   return {
     components: [
       new ActionRowBuilder<ButtonBuilder>().addComponents(
@@ -493,7 +497,9 @@ export const GGP_STAKING_STAKE_TEMPLATE = (
       new EmbedBuilder()
         .setTitle("⬆️  GGP Onboarded.")
         .setDescription(
-          `${actor} has staked GGP to their minipool(s).\n[📄 GGP rewards](https://docs.gogopool.com/design/how-minipools-work/ggp-rewards)`
+          `${stakingMessage(
+            isNodeOperator
+          )}\n[📄 GGP rewards](https://docs.gogopool.com/design/how-minipools-work/ggp-rewards)`
         )
         .addFields(
           pilotField(owner),
@@ -517,7 +523,10 @@ export const GGP_STAKING_WITHDRAW_TEMPLATE = (
   totalStake: BigNumber,
   isNodeOperator: boolean
 ) => {
-  const actor = isNodeOperator ? "A Node Operator" : "Someone";
+  const unstakingMessage = (isNodeOperator: boolean) =>
+    isNodeOperator
+      ? "A Node Operator has unstaked GGP from their minipool(s)."
+      : "Someone has unstaked GGP.";
   return {
     components: [
       new ActionRowBuilder<ButtonBuilder>().addComponents(
@@ -529,7 +538,9 @@ export const GGP_STAKING_WITHDRAW_TEMPLATE = (
       new EmbedBuilder()
         .setTitle("⬇️  GGP Dropped Overboard.")
         .setDescription(
-          `${actor} has un-staked GGP from their minipool(s).\n[📄 GGP rewards](https://docs.gogopool.com/design/how-minipools-work/ggp-rewards)`
+          `${unstakingMessage(
+            isNodeOperator
+          )}.\n[📄 GGP rewards](https://docs.gogopool.com/design/how-minipools-work/ggp-rewards)`
         )
         .addFields(
           pilotField(owner, { inline: false }),
