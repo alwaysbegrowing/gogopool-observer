@@ -15,9 +15,16 @@ const handleGgpStakedEvent = async (
   ggpStakedEvent: GGPStaked
 ) => {
   const { from, amount } = ggpStakedEvent;
-  const { ggpStaked } = await getStakerInformation(from);
+  const { ggpStaked, isNodeOperator } = await getStakerInformation(from);
+
   await emitter.emit(
-    GGP_STAKING_STAKE_TEMPLATE(transactionEvent, from, amount, ggpStaked)
+    GGP_STAKING_STAKE_TEMPLATE(
+      transactionEvent,
+      from,
+      amount,
+      ggpStaked,
+      isNodeOperator
+    )
   );
 };
 
@@ -26,15 +33,22 @@ const handleGgpWithdrawnEvent = async (
   ggpWithdrawnEvent: GGPWithdrawn
 ) => {
   const { to, amount } = ggpWithdrawnEvent;
-  const { ggpStaked } = await getStakerInformation(to);
+  const { ggpStaked, isNodeOperator } = await getStakerInformation(to);
+
   await emitter.emit(
-    GGP_STAKING_WITHDRAW_TEMPLATE(transactionEvent, to, amount, ggpStaked)
+    GGP_STAKING_WITHDRAW_TEMPLATE(
+      transactionEvent,
+      to,
+      amount,
+      ggpStaked,
+      isNodeOperator
+    )
   );
 };
 
 const getStakerInformation = async (
   stakerAddr: string
-): Promise<StakerInformation> => {
+): Promise<StakerInformation & { isNodeOperator: boolean }> => {
   const callResult = await jsonRpcProvider.getProvider().call({
     to: STAKING_ADDRESS,
     data: STAKING_INTERFACE.encodeFunctionData("requireValidStaker", [
@@ -54,7 +68,9 @@ const getStakerInformation = async (
     "getStaker",
     staker
   );
-  return stakerDecodeResult[0];
+  const { avaxStaked, avaxValidatingHighWater } = stakerDecodeResult[0];
+  const isNodeOperator = avaxStaked.gt(0) || avaxValidatingHighWater.gt(0);
+  return { ...stakerDecodeResult[0], isNodeOperator };
 };
 
 export const stakeOrWithdraw = async (context: Context, event: Event) => {

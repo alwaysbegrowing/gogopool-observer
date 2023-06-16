@@ -35,4 +35,18 @@ describe("Staking", () => {
       );
     });
   });
+  describe("stake or withdraw non node-op", () => {
+    test.concurrent("withdraw", async () => {
+      await testRuntime.execute(
+        stakeOrWithdraw,
+        require("./payload/payload-withdraw-staking-non-node-op.json")
+      );
+    });
+    test.concurrent("stake", async () => {
+      await testRuntime.execute(
+        stakeOrWithdraw,
+        require("./payload/payload-stake-staking-non-node-op.json")
+      );
+    });
+  });
 });
