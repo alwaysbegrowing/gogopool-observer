@@ -540,7 +540,7 @@ export const GGP_STAKING_WITHDRAW_TEMPLATE = (
         .setDescription(
           `${unstakingMessage(
             isNodeOperator
-          )}.\n[📄 GGP rewards](https://docs.gogopool.com/design/how-minipools-work/ggp-rewards)`
+          )}\n[📄 GGP rewards](https://docs.gogopool.com/design/how-minipools-work/ggp-rewards)`
         )
         .addFields(
           pilotField(owner, { inline: false }),
