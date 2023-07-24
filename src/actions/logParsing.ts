@@ -1,6 +1,6 @@
 import { Log, TransactionEvent } from "@tenderly/actions";
 import { Interface } from "ethers/lib/utils";
-import { GGAVAX_INTERFACE, STAKING_INTERFACE } from "./constants";
+import { TOKEN_GGAVAX_INTERFACE, STAKING_INTERFACE } from "./constants";
 import {
   GGAVAXDeposit,
   GGAVAXWithdraw,
@@ -77,7 +77,7 @@ export const getGgAvaxWithdrawEvent = async (
   try {
     return await getMatchingEvent<GGAVAXWithdraw>(
       transactionEvent,
-      GGAVAX_INTERFACE,
+      TOKEN_GGAVAX_INTERFACE,
       "Withdraw"
     );
   } catch (e) {
@@ -91,7 +91,7 @@ export const getGgAvaxDepositEvent = async (
   try {
     return await getMatchingEvent<GGAVAXDeposit>(
       transactionEvent,
-      GGAVAX_INTERFACE,
+      TOKEN_GGAVAX_INTERFACE,
       "Deposit"
     );
   } catch (e) {

@@ -8,8 +8,9 @@ import {
   EmbedBuilder,
 } from "discord.js";
 import { BigNumber, utils } from "ethers";
-import { nodeHexToID } from "./utils";
+import { getOrdinal, getOrdinalDisplay, nodeHexToID } from "./utils";
 import hash from "hash-emoji";
+import { RewardsInformation } from "./types";
 
 export const getEmojiAddress = (address: string) => {
   return `${hash(address)} ${address.slice(0, 6)}...${address.slice(-4)}`;
@@ -192,6 +193,69 @@ const liquidStakerField = (
   return {
     name: "🌊 liquid staker",
     value: getEmojiAddress(utils.getAddress(owner)),
+    inline: true,
+    ...options,
+  };
+};
+
+const rewardsCycleStartTimeField = (
+  time: BigNumber,
+  options?: Partial<APIEmbedField>
+): APIEmbedField => {
+  return {
+    name: "🕐 start time",
+    value: `<t:${time}:D>`,
+    inline: true,
+    ...options,
+  };
+};
+
+const rewardsCycleEligibilityField = (
+  time: BigNumber,
+  options?: Partial<APIEmbedField>
+): APIEmbedField => {
+  return {
+    name: "⌛ eligibility cut-off",
+    value: `<t:${time}:D>`,
+    inline: true,
+    ...options,
+  };
+};
+
+const rewardsCycleDurationField = (
+  duration: BigNumber,
+  options?: Partial<APIEmbedField>
+): APIEmbedField => {
+  return {
+    name: "⏳ duration",
+    value: `${duration.div(60 * 60 * 24)} days`,
+    inline: true,
+    ...options,
+  };
+};
+
+const rewardsCycleEndTimeField = (
+  time: BigNumber,
+  options?: Partial<APIEmbedField>
+): APIEmbedField => {
+  return {
+    name: "🏁 end time",
+    value: `<t:${time.toString()}:D>`,
+    inline: true,
+    ...options,
+  };
+};
+
+const rewardsCycleTotalRewardsField = (
+  totalRewards: BigNumber,
+  options?: Partial<APIEmbedField>
+): APIEmbedField => {
+  return {
+    name: "🎉 total rewards",
+
+    value: `${Number(
+      utils.formatUnits(totalRewards, 18)
+    ).toLocaleString()} GGP`,
     inline: true,
     ...options,
   };
@@ -619,6 +683,90 @@ export const GGAVAX_WITHDRAW_TEMPLATE = (
         )
         .setColor(0x4363aa)
         .setFooter({ text: "[ggAVAX] • withdraw" }),
+    ],
+  };
+};
+
+export const REWARDS_NEW_CYCLE_TEMPLATE = ({
+  rewardsCycleStartTime,
+  rewardsEligibilityTime,
+  rewardsCycleEndTime,
+  rewardsCycleTotalAmt,
+  rewardsCycleCount,
+}: RewardsInformation) => {
+  const cycle = getOrdinalDisplay(rewardsCycleCount.add(1));
+  return {
+    embeds: [
+      new EmbedBuilder()
+        .setTitle(
+          `💨 ...And They're Off! The ${cycle} Great Flight is Underway`
+        )
+        .setDescription(
+          `The ${cycle} GGP rewards cycle has started. Eligible Node Operators can stake GGP to their minipools to earn rewards. This cycle end: <t:${rewardsCycleEndTime}:R>.
+[📄 GGP Rewards](https://docs.gogopool.com/design/how-minipools-work/ggp-rewards)`
+        )
+        .addFields(
+          rewardsCycleStartTimeField(rewardsCycleStartTime),
+          rewardsCycleEligibilityField(rewardsEligibilityTime),
+          rewardsCycleEndTimeField(rewardsCycleEndTime),
+          rewardsCycleTotalRewardsField(rewardsCycleTotalAmt)
+        )
+        .setColor(0xaa6343)
+        .setFooter({ text: "[rewards] • start" }),
+    ],
+  };
+};
+
+export const REWARDS_ELIGIBILITY_REMINDER_TEMPLATE = ({
+  rewardsCycleEndTime,
+  rewardsCycleTotalAmt,
+  rewardsCycleCount,
+  rewardsEligibilityTime,
+}: RewardsInformation) => {
+  const cycle = getOrdinalDisplay(rewardsCycleCount.add(1));
+  return {
+    embeds: [
+      new EmbedBuilder()
+        .setTitle(`ℹ️ Registration Reminder for the ${cycle} Great Flight.`)
+        .setDescription(
+          `Eligibility cut-off for the ${cycle} rewards period: <t:${rewardsEligibilityTime}:R>. Your minipool must be registered before this time to be eligible. Node operators with registered minipools will receive a share of this cycle's rewards.
+[📄 GGP Rewards](https://docs.gogopool.com/design/how-minipools-work/ggp-rewards)`
+        )
+        .addFields(
+          rewardsCycleEligibilityField(rewardsEligibilityTime),
+          rewardsCycleEndTimeField(rewardsCycleEndTime),
+          rewardsCycleTotalRewardsField(rewardsCycleTotalAmt, { inline: false })
+        )
+        .setColor(0xaa6343)
+        .setFooter({ text: "[rewards] • eligibility" }),
+    ],
+  };
+};
+
+export const REWARDS_ENDING_REMINDER_TEMPLATE = ({
+  rewardsCycleStartTime,
+  rewardsCycleSeconds,
+  rewardsCycleEndTime,
+  rewardsCycleTotalAmt,
+  rewardsCycleCount,
+}: RewardsInformation) => {
+  const cycle = getOrdinalDisplay(rewardsCycleCount.add(1));
+  return {
+    embeds: [
+      new EmbedBuilder()
+        .setTitle(`🏁 Ending Reminder for the ${cycle} Great Flight.`)
+        .setDescription(
+          `The ${cycle} rewards cycle end: <t:${rewardsCycleEndTime}:R>. At that time, eligible Node Operators will receive a share of the rewards for the cycle.
+[📄 GGP Rewards](https://docs.gogopool.com/design/how-minipools-work/ggp-rewards)`
+        )
+        .addFields(
+          rewardsCycleStartTimeField(rewardsCycleStartTime),
+          rewardsCycleDurationField(rewardsCycleSeconds),
+          rewardsCycleEndTimeField(rewardsCycleEndTime),
+          rewardsCycleTotalRewardsField(rewardsCycleTotalAmt)
+        )
+        .setColor(0xaa6343)
+        .setFooter({ text: "[rewards] • end" }),
     ],
   };
 };

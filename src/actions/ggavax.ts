@@ -3,7 +3,7 @@ import { getGgAvaxDepositEvent, getGgAvaxWithdrawEvent } from "./logParsing";
 import { GGAVAX_DEPOSIT_TEMPLATE, GGAVAX_WITHDRAW_TEMPLATE } from "./templates";
 import { GGAVAXDeposit, GGAVAXWithdraw, GgAvaxInformation } from "./types";
 import { jsonRpcProvider } from "./ethers";
-import { GGAVAX_ADDRESS, GGAVAX_INTERFACE } from "./constants";
+import { TOKENGG_AVAX_ADDRESS, TOKEN_GGAVAX_INTERFACE } from "./constants";
 import { initServices } from "./utils";
 import { emitter } from "./emitter";
 
@@ -39,16 +39,17 @@ const handleGgAvaxEvent = async (
   );
 };
 
+
 const getGgAvaxInformation = async (): Promise<GgAvaxInformation> => {
   const amountAvailableForStakingCallResult = jsonRpcProvider
     .getProvider()
     .call({
-      to: GGAVAX_ADDRESS,
-      data: GGAVAX_INTERFACE.encodeFunctionData("amountAvailableForStaking"),
+      to: TOKENGG_AVAX_ADDRESS,
+      data: TOKEN_GGAVAX_INTERFACE.encodeFunctionData("amountAvailableForStaking"),
     });
   const stakingTotalAssetsCallResult = jsonRpcProvider.getProvider().call({
-    to: GGAVAX_ADDRESS,
-    data: GGAVAX_INTERFACE.encodeFunctionData("stakingTotalAssets"),
+    to: TOKENGG_AVAX_ADDRESS,
+    data: TOKEN_GGAVAX_INTERFACE.encodeFunctionData("stakingTotalAssets"),
   });
   const [amountAvailableForStakingResult, stakingTotalAssetsResult] =
     await Promise.all([
@@ -56,11 +57,11 @@ const getGgAvaxInformation = async (): Promise<GgAvaxInformation> => {
       stakingTotalAssetsCallResult,
     ]);
 
-  const amountAvailableForStaking = GGAVAX_INTERFACE.decodeFunctionResult(
+  const amountAvailableForStaking = TOKEN_GGAVAX_INTERFACE.decodeFunctionResult(
     "amountAvailableForStaking",
     amountAvailableForStakingResult
   )[0];
-  const stakingTotalAssets = GGAVAX_INTERFACE.decodeFunctionResult(
+  const stakingTotalAssets = TOKEN_GGAVAX_INTERFACE.decodeFunctionResult(
     "stakingTotalAssets",
     stakingTotalAssetsResult
   )[0];

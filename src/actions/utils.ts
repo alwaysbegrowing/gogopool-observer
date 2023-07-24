@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 
 import { BinTools } from "avalanche";
 import { Buffer } from "buffer/"; // note: the slash is important!
@@ -134,4 +134,22 @@ export const initServices = async (context: Context) => {
   );
 
   emitter.addClient(databaseClient);
+};
+
+export const getOrdinal = (n: number) => {
+  let ord = "th";
+
+  if (n % 10 == 1 && n % 100 != 11) {
+    ord = "st";
+  } else if (n % 10 == 2 && n % 100 != 12) {
+    ord = "nd";
+  } else if (n % 10 == 3 && n % 100 != 13) {
+    ord = "rd";
+  }
+
+  return ord;
+};
+
+export const getOrdinalDisplay = (n: BigNumber) => {
+  return `${n.toString()}${getOrdinal(n.toNumber())}`;
 };

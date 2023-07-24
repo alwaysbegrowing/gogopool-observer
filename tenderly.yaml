@@ -61,4 +61,11 @@ actions:
                 status: success
             status:
               - mined
+      rewards:
+        description: rewards.
+        function: rewards:checkRewardsPeriodic
+        trigger:
+          type: periodic
+          periodic:
+            cron: "0 23 * * *"
 project_slug: ""

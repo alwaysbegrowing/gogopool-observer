@@ -101,3 +101,14 @@ export type GgAvaxInformation = {
   amountAvailableForStaking: BigNumber;
   stakingTotalAssets: BigNumber;
 };
+
+export type RewardsInformation = {
+  rewardsCycleStartTime: BigNumber;
+  rewardsCycleEndTime: BigNumber;
+  rewardsCycleTotalAmt: BigNumber;
+  rewardsCycleCount: BigNumber;
+  inflationAmt: BigNumber;
+  rewardsCycleSeconds: BigNumber;
+  rewardsEligibilityMinSeconds: BigNumber;
+  rewardsEligibilityTime: BigNumber;
+};
