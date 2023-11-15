@@ -13,7 +13,7 @@ actions:
             filters:
               - eventEmitted:
                   contract:
-                    address: 0x9e6579161c6f53722541edbd5ac96779c5b280e9
+                    address: 0xb84fa022c7fe1ce3a1f94c49f2f13236c3d1ed08
                   name: MinipoolStatusChanged
                 status: success
                 network: 43114
