@@ -1,7 +1,7 @@
 {
   "devDependencies": {
-    "@tenderly/actions": "^0.2.2",
-    "@tenderly/actions-test": "^0.2.2",
+    "@tenderly/actions": "^0.2",
+    "@tenderly/actions-test": "^0.2",
     "axios": "^0.9",
     "chai": "^4.3.7",
     "dotenv": "^16.0.3",
