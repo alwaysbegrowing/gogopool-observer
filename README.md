@@ -8,7 +8,8 @@ While installing dependencies for the root as well as the actions folder, copy o
 npm i
 
 # ./src/actions install deps to ship over to serverless land 🏝️
-cd ./src/actions && npm i
+cd ./src/actions
+npm i
 ```
 
 ## Testing
