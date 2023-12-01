@@ -1,5 +1,5 @@
 # GoGo-Observer
-(re)Actions for on-chain events. Uses Tenderly Actions and Vitest for local development. 
+(re)Actions for on-chain events. Uses Tenderly Actions and Vitest for local development.
 
 ## Setup
 While installing dependencies for the root as well as the actions folder, copy over the `env.example` file to a `.env` file. 
