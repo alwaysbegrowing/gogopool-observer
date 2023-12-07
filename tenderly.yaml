@@ -13,7 +13,7 @@ actions:
             filters:
               - eventEmitted:
                   contract:
-                    address: 0xb84fa022c7fe1ce3a1f94c49f2f13236c3d1ed08
+                    address: 0xb84fA022c7fE1CE3a1F94C49f2F13236C3d1Ed08
                   name: MinipoolStatusChanged
                 status: success
                 network: 43114
@@ -29,13 +29,13 @@ actions:
               - network: 43114
                 eventEmitted:
                   contract:
-                    address: 0x9946e68490d71fe976951e360f295c4cf8531d00
+                    address: 0xB6dDbf75e2F0C7FC363B47B84b5C03959526AecB
                   name: GGPStaked
                 status: success
               - network: 43114
                 eventEmitted:
                   contract:
-                    address: 0x9946e68490d71fe976951e360f295c4cf8531d00
+                    address: 0xB6dDbf75e2F0C7FC363B47B84b5C03959526AecB
                   name: GGPWithdrawn
                 status: success
             status:

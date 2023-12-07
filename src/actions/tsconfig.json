@@ -5,11 +5,13 @@
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "outDir": "out",
+    "rootDir": "",
     "sourceMap": true,
     "esModuleInterop": true,
     "strict": true,
     "target": "es2020",
-    "resolveJsonModule": true
+    "skipLibCheck": true,
   },
-  "include": ["**/*"]
+  "include": ["**/*"],
+  "exclude": ["**/*.spec.ts", "node_modules","node_modules/discord.js/typings/index.d.ts"],
 }
