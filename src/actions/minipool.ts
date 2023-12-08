@@ -126,8 +126,7 @@ const getMessageFromStatusChangedEvent = async (
         transactionEvent,
         nodeID,
         owner,
-        duration.toString(),
-        startTime.add(duration).toString()
+        duration.toString()
       );
 
     default:
