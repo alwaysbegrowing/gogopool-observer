@@ -46,5 +46,11 @@ describe("Minipool", () => {
         require("./payload/payload-withdrawable-minipool.json")
       );
     });
+    test.concurrent("[streamlined].", async () => {
+      await testRuntime.execute(
+        minipoolStatusChange,
+        require("./payload/payload-streamline-minipool.json")
+      );
+    });
   });
 });

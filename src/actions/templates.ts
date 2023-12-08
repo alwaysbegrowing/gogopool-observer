@@ -265,8 +265,7 @@ export const MINIPOOL_PRELAUNCH_TEMPLATE = (
   transactionEvent: TransactionEvent,
   nodeId: string,
   owner: string,
-  duration: string,
-  endTime: string
+  duration: string
 ) => {
   return {
     components: [
@@ -293,6 +292,38 @@ export const MINIPOOL_PRELAUNCH_TEMPLATE = (
         .setFooter({
           text: "[minipool status change] • prelaunch",
         }),
+    ],
+  };
+};
+
+export const MINIPOOL_STREAMLINE_TEMPLATE = (
+  transactionEvent: TransactionEvent,
+  nodeId: string,
+  owner: string,
+  duration: string
+) => {
+  return {
+    components: [
+      new ActionRowBuilder<ButtonBuilder>().addComponents(
+        pilotComponent(owner),
+        balloonComponent(nodeId),
+        transactionComponent(transactionEvent.transactionHash)
+      ),
+    ],
+    embeds: [
+      new EmbedBuilder()
+        .setTitle("🖱️  One-Click Launch Initiated")
+        .setDescription(
+          "With the magic of a single click, all preparations are complete. The Node Operator has started the journey with 1,111 AVAX, bypassing the complexities of traditional setup. Ready for a rewarding flight?\n[📄 One Click Minipool Guide](https://docs.gogopool.com/design/how-minipools-work/one-click-launcher)"
+        )
+        .addFields(
+          pilotField(owner),
+          balloonField(nodeId),
+          tripDurationField(duration),
+          minipoolStatusField("prelaunch")
+        )
+        .setColor(0x7ddbd5)
+        .setFooter({ text: "[minipool status change] • one-click" }),
     ],
   };
 };

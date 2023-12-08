@@ -58,7 +58,8 @@ export enum MinipoolStatus {
   ERROR = "4",
   CANCELED = "5",
   FINISHED = "6",
-  RESTAKE = "10",
+  STREAMLINE_PRELAUNCH = "10",
+  RESTAKE = "11",
 }
 
 export type Minipool = {

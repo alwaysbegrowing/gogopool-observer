@@ -2,6 +2,7 @@ import { Context, Event, TransactionEvent } from "@tenderly/actions";
 import {
   MINIPOOL_MANAGER_ADDRESS,
   MINIPOOL_MANAGER_INTERFACE,
+  MINIPOOL_STREAMLINER_INTERFACE,
 } from "./constants";
 import {
   MINIPOOL_CANCELED_TEMPLATE,
@@ -11,6 +12,7 @@ import {
   MINIPOOL_PRELAUNCH_TEMPLATE,
   MINIPOOL_RESTAKE_TEMPLATE,
   MINIPOOL_STAKING_TEMPLATE,
+  MINIPOOL_STREAMLINE_TEMPLATE,
   MINIPOOL_WITHDRAWABLE_TEMPLATE,
 } from "./templates";
 import { getMatchingEvents } from "./logParsing";
@@ -45,15 +47,16 @@ const getMessageFromStatusChangedEvent = async (
   if (!status) {
     status = statusChangedEvent.status.toString() as MinipoolStatus;
   }
-  const { owner, duration, startTime } = await getMinipoolDataFromNodeId(nodeID);
+  const { owner, duration, startTime } = await getMinipoolDataFromNodeId(
+    nodeID
+  );
   switch (status.toString()) {
     case MinipoolStatus.PRELAUNCH:
       return MINIPOOL_PRELAUNCH_TEMPLATE(
         transactionEvent,
         nodeID,
         transactionEvent.from,
-        duration.toString(),
-        startTime.add(duration).toString()
+        duration.toString()
       );
     case MinipoolStatus.LAUNCH:
       return MINIPOOL_LAUNCH_TEMPLATE(
@@ -83,8 +86,13 @@ const getMessageFromStatusChangedEvent = async (
       );
 
     case MinipoolStatus.ERROR:
-      return MINIPOOL_ERROR_TEMPLATE(transactionEvent, nodeID, owner, duration.toString(),
-      startTime.add(duration).toString());
+      return MINIPOOL_ERROR_TEMPLATE(
+        transactionEvent,
+        nodeID,
+        owner,
+        duration.toString(),
+        startTime.add(duration).toString()
+      );
 
     case MinipoolStatus.CANCELED:
       return MINIPOOL_CANCELED_TEMPLATE(
@@ -113,13 +121,22 @@ const getMessageFromStatusChangedEvent = async (
         startTime.add(duration).toString()
       );
 
+    case MinipoolStatus.STREAMLINE_PRELAUNCH:
+      return MINIPOOL_STREAMLINE_TEMPLATE(
+        transactionEvent,
+        nodeID,
+        owner,
+        duration.toString(),
+        startTime.add(duration).toString()
+      );
+
     default:
       throw new Error("unknown status");
   }
 };
 
 export const minipoolStatusChange = async (context: Context, event: Event) => {
-  await initServices(context)
+  await initServices(context);
   const transactionEvent = event as TransactionEvent;
 
   const statusChangedEvents = getMatchingEvents<MinipoolStatusChanged>(
@@ -131,10 +148,24 @@ export const minipoolStatusChange = async (context: Context, event: Event) => {
   if (statusChangedEvents.length === 0) {
     throw new Error("status event not found");
   } else if (statusChangedEvents.length === 1) {
-    message = await getMessageFromStatusChangedEvent(
-      statusChangedEvents[0],
-      transactionEvent
-    );
+    const hasNewStreamlinedMinipoolMadeEvent =
+      getMatchingEvents<MinipoolStatusChanged>(
+        transactionEvent,
+        MINIPOOL_STREAMLINER_INTERFACE,
+        "NewStreamlinedMinipoolMade"
+      )?.length > 0;
+    if (hasNewStreamlinedMinipoolMadeEvent) {
+      message = await getMessageFromStatusChangedEvent(
+        statusChangedEvents[0],
+        transactionEvent,
+        MinipoolStatus.STREAMLINE_PRELAUNCH
+      );
+    } else {
+      message = await getMessageFromStatusChangedEvent(
+        statusChangedEvents[0],
+        transactionEvent
+      );
+    }
   } else {
     // Only special case I know now is restake
     message = await getMessageFromStatusChangedEvent(
