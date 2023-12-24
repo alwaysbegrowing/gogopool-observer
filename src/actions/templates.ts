@@ -714,12 +714,6 @@ export const GGAVAX_DEPOSIT_DISPLAY_TEMPLATE = (
   )})`;
   const spacer = " ".repeat(99 - title.length);
   return {
-    components: [
-      new ActionRowBuilder<ButtonBuilder>().addComponents(
-        liquidStakerComponent(transactionEvent.from),
-        transactionComponent(transactionEvent.hash)
-      ),
-    ],
     embeds: [
       new EmbedBuilder()
         .setDescription(
@@ -782,12 +776,6 @@ export const GGAVAX_WITHDRAW_DISPLAY_TEMPLATE = (
   )})`;
   const spacer = " ".repeat(97 - title.length);
   return {
-    components: [
-      new ActionRowBuilder<ButtonBuilder>().addComponents(
-        liquidStakerComponent(transactionEvent.from),
-        transactionComponent(transactionEvent.hash)
-      ),
-    ],
     embeds: [
       new EmbedBuilder()
         .setDescription(
