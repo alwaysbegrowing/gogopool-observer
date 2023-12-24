@@ -1,6 +1,9 @@
 import { Context, Event, TransactionEvent } from "@tenderly/actions";
 import { getGgAvaxDepositEvent, getGgAvaxWithdrawEvent } from "./logParsing";
-import { GGAVAX_DEPOSIT_TEMPLATE, GGAVAX_WITHDRAW_TEMPLATE } from "./templates";
+import {
+  GGAVAX_DEPOSIT_DISPLAY_TEMPLATE,
+  GGAVAX_WITHDRAW_DISPLAY_TEMPLATE,
+} from "./templates";
 import { GGAVAXDeposit, GGAVAXWithdraw, GgAvaxInformation } from "./types";
 import { jsonRpcProvider } from "./ethers";
 import { TOKENGG_AVAX_ADDRESS, TOKEN_GGAVAX_INTERFACE } from "./constants";
@@ -11,13 +14,12 @@ const handleGgAvaxDepositEvent = async (
   transactionEvent: TransactionEvent,
   ggpStakedEvent: GGAVAXDeposit
 ) => {
-  const { assets, shares } = ggpStakedEvent;
+  const { assets } = ggpStakedEvent;
   const { amountAvailableForStaking } = await getGgAvaxInformation();
   await emitter.emit(
-    GGAVAX_DEPOSIT_TEMPLATE(
+    GGAVAX_DEPOSIT_DISPLAY_TEMPLATE(
       transactionEvent,
       assets,
-      shares,
       amountAvailableForStaking
     )
   );
@@ -27,25 +29,25 @@ const handleGgAvaxEvent = async (
   transactionEvent: TransactionEvent,
   ggpWithdrawnEvent: GGAVAXWithdraw
 ) => {
-  const { assets, shares } = ggpWithdrawnEvent;
+  const { assets } = ggpWithdrawnEvent;
   const { amountAvailableForStaking } = await getGgAvaxInformation();
   await emitter.emit(
-    GGAVAX_WITHDRAW_TEMPLATE(
+    GGAVAX_WITHDRAW_DISPLAY_TEMPLATE(
       transactionEvent,
       assets,
-      shares,
       amountAvailableForStaking
     )
   );
 };
-
 
 const getGgAvaxInformation = async (): Promise<GgAvaxInformation> => {
   const amountAvailableForStakingCallResult = jsonRpcProvider
     .getProvider()
     .call({
       to: TOKENGG_AVAX_ADDRESS,
-      data: TOKEN_GGAVAX_INTERFACE.encodeFunctionData("amountAvailableForStaking"),
+      data: TOKEN_GGAVAX_INTERFACE.encodeFunctionData(
+        "amountAvailableForStaking"
+      ),
     });
   const stakingTotalAssetsCallResult = jsonRpcProvider.getProvider().call({
     to: TOKENGG_AVAX_ADDRESS,

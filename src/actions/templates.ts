@@ -172,6 +172,15 @@ const avaxAmountField = (
   };
 };
 
+const avaxAmountDisplay = (
+  amount: BigNumber,
+  options?: Intl.NumberFormatOptions
+): string =>
+  `**${Number(utils.formatUnits(amount, 18)).toLocaleString("en-us", {
+    minimumFractionDigits: 4,
+    ...options,
+  })} AVAX**`;
+
 const ggAvaxAmountField = (
   amount: BigNumber,
   options?: Partial<APIEmbedField>
@@ -197,6 +206,11 @@ const liquidStakerField = (
     ...options,
   };
 };
+
+const liquidStakerDisplay = (owner: string): string =>
+  `[${getEmojiAddress(
+    utils.getAddress(owner)
+  )}](https://snowtrace.io/address/${owner})`;
 
 const rewardsCycleStartTimeField = (
   time: BigNumber,
@@ -685,6 +699,41 @@ export const GGAVAX_DEPOSIT_TEMPLATE = (
   };
 };
 
+export const GGAVAX_DEPOSIT_DISPLAY_TEMPLATE = (
+  transactionEvent: TransactionEvent,
+  assets: BigNumber,
+  amountAvailableForStaking: BigNumber
+) => {
+  const title = `⬆️ ${avaxAmountDisplay(
+    assets
+  )} Added to the Liquid Staking Pool (${avaxAmountDisplay(
+    amountAvailableForStaking,
+    {
+      minimumFractionDigits: 0,
+    }
+  )})`;
+  const spacer = " ".repeat(99 - title.length);
+  return {
+    components: [
+      new ActionRowBuilder<ButtonBuilder>().addComponents(
+        liquidStakerComponent(transactionEvent.from),
+        transactionComponent(transactionEvent.hash)
+      ),
+    ],
+    embeds: [
+      new EmbedBuilder()
+        .setDescription(
+          `${title} ${spacer}\n\n[⛓️ transaction](https://snowtrace.io/tx/${
+            transactionEvent.transactionHash
+          }) [📄 liquid staking](https://docs.gogopool.com/design/how-liquid-staking-works) ${liquidStakerDisplay(
+            transactionEvent.from
+          )}`
+        )
+        .setColor(0x8aa0d1),
+    ],
+  };
+};
+
 export const GGAVAX_WITHDRAW_TEMPLATE = (
   transactionEvent: TransactionEvent,
   assets: BigNumber,
@@ -714,6 +763,41 @@ export const GGAVAX_WITHDRAW_TEMPLATE = (
         )
         .setColor(0x4363aa)
         .setFooter({ text: "[ggAVAX] • withdraw" }),
+    ],
+  };
+};
+
+export const GGAVAX_WITHDRAW_DISPLAY_TEMPLATE = (
+  transactionEvent: TransactionEvent,
+  assets: BigNumber,
+  amountAvailableForStaking: BigNumber
+) => {
+  const title = `⬇️ ${avaxAmountDisplay(
+    assets
+  )} Drained from Liquid Staking Pool (${avaxAmountDisplay(
+    amountAvailableForStaking,
+    {
+      minimumFractionDigits: 0,
+    }
+  )})`;
+  const spacer = " ".repeat(97 - title.length);
+  return {
+    components: [
+      new ActionRowBuilder<ButtonBuilder>().addComponents(
+        liquidStakerComponent(transactionEvent.from),
+        transactionComponent(transactionEvent.hash)
+      ),
+    ],
+    embeds: [
+      new EmbedBuilder()
+        .setDescription(
+          `${title} ${spacer}\n\n[⛓️ transaction](https://snowtrace.io/tx/${
+            transactionEvent.transactionHash
+          }) [📄 liquid staking](https://docs.gogopool.com/design/how-liquid-staking-works) ${liquidStakerDisplay(
+            transactionEvent.from
+          )}`
+        )
+        .setColor(0x4363aa),
     ],
   };
 };
