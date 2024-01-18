@@ -712,12 +712,12 @@ export const GGAVAX_DEPOSIT_DISPLAY_TEMPLATE = (
       minimumFractionDigits: 0,
     }
   )})`;
-  const spacer = " ".repeat(99 - title.length);
+
   return {
     embeds: [
       new EmbedBuilder()
         .setDescription(
-          `${title} ${spacer}\n\n[⛓️ transaction](https://snowtrace.io/tx/${
+          `${title}\n\n[⛓️ transaction](https://snowtrace.io/tx/${
             transactionEvent.transactionHash
           }) [📄 liquid staking](https://docs.gogopool.com/design/how-liquid-staking-works) ${liquidStakerDisplay(
             transactionEvent.from
@@ -774,12 +774,12 @@ export const GGAVAX_WITHDRAW_DISPLAY_TEMPLATE = (
       minimumFractionDigits: 0,
     }
   )})`;
-  const spacer = " ".repeat(97 - title.length);
+
   return {
     embeds: [
       new EmbedBuilder()
         .setDescription(
-          `${title} ${spacer}\n\n[⛓️ transaction](https://snowtrace.io/tx/${
+          `${title}\n\n[⛓️ transaction](https://snowtrace.io/tx/${
             transactionEvent.transactionHash
           }) [📄 liquid staking](https://docs.gogopool.com/design/how-liquid-staking-works) ${liquidStakerDisplay(
             transactionEvent.from
