@@ -10,7 +10,7 @@ import {
 import { BigNumber, utils } from "ethers";
 import { getOrdinalDisplay, nodeHexToID } from "./utils";
 import hash from "hash-emoji";
-import { RewardsInformation } from "./types";
+import { RewardsInformation, XGGPDeposit } from "./types";
 
 export const getEmojiAddress = (address: string) => {
   return `${hash(address)} ${address.slice(0, 6)}...${address.slice(-4)}`;
@@ -180,6 +180,15 @@ const avaxAmountDisplay = (
     minimumFractionDigits: 4,
     ...options,
   })} AVAX**`;
+
+const ggpAmountDisplay = (
+  amount: BigNumber,
+  options?: Intl.NumberFormatOptions
+): string =>
+  `**${Number(utils.formatUnits(amount, 18)).toLocaleString("en-us", {
+    minimumFractionDigits: 0,
+    ...options,
+  })} GGP**`;
 
 const ggAvaxAmountField = (
   amount: BigNumber,
@@ -790,6 +799,102 @@ export const GGAVAX_WITHDRAW_DISPLAY_TEMPLATE = (
   };
 };
 
+export const XGGP_DEPOSIT_DISPLAY_TEMPLATE = (
+  transactionEvent: TransactionEvent,
+  { assets, owner, sender, shares }: XGGPDeposit
+) => {
+  const title = `⬆️ ${ggpAmountDisplay(assets)} Added to the Vault.`;
+
+  return {
+    embeds: [
+      new EmbedBuilder()
+        .setDescription(
+          `${title}\n\n[⛓️ transaction](https://snowtrace.io/tx/${
+            transactionEvent.transactionHash
+          }) [📄 vault deposit](https://docs.seafi.app/overview/depositors) ${liquidStakerDisplay(
+            transactionEvent.from
+          )}`
+        )
+        .setColor(0xaa5566)
+        .setFooter({ text: "[vault] • deposit" }),
+    ],
+  };
+};
+
+export const XGGP_WITHDRAW_DISPLAY_TEMPLATE = (
+  transactionEvent: TransactionEvent,
+  assets: BigNumber
+) => {
+  const title = `⬇️ ${ggpAmountDisplay(assets)} Drained from the Vault.`;
+  return {
+    embeds: [
+      new EmbedBuilder()
+        .setDescription(
+          `${title}\n\n[⛓️ transaction](https://snowtrace.io/tx/${
+            transactionEvent.transactionHash
+          }) [📄 vault withdraw](https://docs.seafi.app/overview/depositors) ${liquidStakerDisplay(
+            transactionEvent.from
+          )}`
+        )
+        .setColor(0xaa4950)
+        .setFooter({ text: "[vault] • withdraw" }),
+    ],
+  };
+};
+
+export const XGGP_GGP_CAP_UPDATED_TEMPLATE = (newMax: BigNumber) => {
+  return {
+    embeds: [
+      new EmbedBuilder()
+        .setTitle(`GGP Cap Updated: ${ggpAmountDisplay(newMax)}`)
+        .setColor(0xaa4950)
+        .setFooter({ text: "[vault] • variables" }),
+    ],
+  };
+};
+
+export const XGGP_TARGET_APR_UPDATED_TEMPLATE = (
+  targetAprBasisPoints: BigNumber
+) => {
+  // 28 days cycles means 13 cycles per year
+  const apr = targetAprBasisPoints.mul(13).div(10000);
+  return {
+    embeds: [
+      new EmbedBuilder()
+        .setTitle(`Target APY Updated: ${apr}%`)
+        .setColor(0xaa4950)
+        .setFooter({ text: "[vault] • variables" }),
+    ],
+  };
+};
+
+export const XGGP_STAKING_DEPOSIT_TEMPLATE = (assets: BigNumber) => {
+  return {
+    embeds: [
+      new EmbedBuilder()
+        .setTitle(`⬆️ ${ggpAmountDisplay(assets)} tokens added.`)
+        .setDescription(
+          `Liquidity in the vault has decreased as GGP was delegated to a GoGoPool staker.\n[📄 vault strategy](https://docs.seafi.app/overview/vault-strategy-node-operation)`
+        )
+        .setColor(0xaa5566)
+        .setFooter({ text: "[vault] • deposit" }),
+    ],
+  };
+};
+
+export const XGGP_STAKING_WITHDRAW_TEMPLATE = (amount: BigNumber) => {
+  return {
+    embeds: [
+      new EmbedBuilder()
+        .setTitle(`⬇️ ${ggpAmountDisplay(amount)} tokens withdrawn.`)
+        .setDescription(
+          `Liquidity in the vault has increased as GGP was withdrawn from a GoGoPool staker.\n[📄 vault strategy](https://docs.seafi.app/overview/vault-strategy-node-operation)`
+        )
+        .setColor(0xaa4950)
+        .setFooter({ text: "[vault] • withdraw" }),
+    ],
+  };
+};
 export const REWARDS_NEW_CYCLE_TEMPLATE = ({
   rewardsCycleStartTime,
   rewardsEligibilityTime,

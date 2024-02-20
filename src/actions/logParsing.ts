@@ -1,11 +1,21 @@
 import { Log, TransactionEvent } from "@tenderly/actions";
 import { Interface } from "ethers/lib/utils";
-import { TOKEN_GGAVAX_INTERFACE, STAKING_INTERFACE } from "./constants";
 import {
+  TOKEN_GGAVAX_INTERFACE,
+  STAKING_INTERFACE,
+  GGP_VAULT_INTERFACE,
+} from "./constants";
+import {
+  DepositedFromStaking,
   GGAVAXDeposit,
   GGAVAXWithdraw,
+  GGPCapUpdated,
   GGPStaked,
   GGPWithdrawn,
+  TargetAPRUpdated,
+  WithdrawnForStaking,
+  XGGPDeposit,
+  XGGPWithdraw,
 } from "./types";
 
 export const getMatchingEvent = <Type>(
@@ -93,6 +103,144 @@ export const getGgAvaxDepositEvent = async (
       transactionEvent,
       TOKEN_GGAVAX_INTERFACE,
       "Deposit"
+    );
+  } catch (e) {
+    return;
+  }
+};
+
+/*
+
+export interface XGGPDeposit extends Event {
+  sender: string;
+  owner: string;
+  assets: BigNumber;
+  shares: BigNumber;
+}
+
+export interface XGGPWithdraw extends Event {
+  sender: string;
+  receiver: string;
+  owner: string;
+  assets: BigNumber;
+  shares: BigNumber;
+}
+
+export interface GGPCapUpdated extends Event {
+  newMax: BigNumber;
+}
+
+export interface TargetAPRUpdated extends Event {
+  newTargetAPR: BigNumber;
+}
+
+export interface WithdrawnForStaking extends Event {
+  caller: string;
+  assets: BigNumber;
+}
+
+export interface DepositedFromStaking extends Event {
+  caller: string;
+  amount: BigNumber;
+}
+
+export interface RewardsDistributed extends Event {
+  amount: BigNumber;
+}
+*/
+
+export const getXggpDepositEvent = async (
+  transactionEvent: TransactionEvent
+): Promise<XGGPDeposit | undefined> => {
+  try {
+    return await getMatchingEvent<XGGPDeposit>(
+      transactionEvent,
+      GGP_VAULT_INTERFACE,
+      "Deposit"
+    );
+  } catch (e) {
+    return;
+  }
+};
+
+export const getXggpWithdrawEvent = async (
+  transactionEvent: TransactionEvent
+): Promise<XGGPWithdraw | undefined> => {
+  try {
+    return await getMatchingEvent<XGGPWithdraw>(
+      transactionEvent,
+      GGP_VAULT_INTERFACE,
+      "Withdraw"
+    );
+  } catch (e) {
+    return;
+  }
+};
+
+export const getXggpCapUpdatedEvent = async (
+  transactionEvent: TransactionEvent
+): Promise<GGPCapUpdated | undefined> => {
+  try {
+    return await getMatchingEvent<GGPCapUpdated>(
+      transactionEvent,
+      GGP_VAULT_INTERFACE,
+      "GGPCapUpdated"
+    );
+  } catch (e) {
+    return;
+  }
+};
+
+export const getTargetAPRUpdatedEvent = async (
+  transactionEvent: TransactionEvent
+): Promise<TargetAPRUpdated | undefined> => {
+  try {
+    return await getMatchingEvent<TargetAPRUpdated>(
+      transactionEvent,
+      GGP_VAULT_INTERFACE,
+      "TargetAPRUpdated"
+    );
+  } catch (e) {
+    return;
+  }
+};
+
+export const getDepositedFromStakingEvent = async (
+  transactionEvent: TransactionEvent
+): Promise<DepositedFromStaking | undefined> => {
+  try {
+    return await getMatchingEvent<DepositedFromStaking>(
+      transactionEvent,
+      GGP_VAULT_INTERFACE,
+      "DepositedFromStaking"
+    );
+  } catch (e) {
+    return;
+  }
+};
+
+export const getWithdrawnForStakingEvent = async (
+  transactionEvent: TransactionEvent
+): Promise<WithdrawnForStaking | undefined> => {
+  try {
+    return await getMatchingEvent<WithdrawnForStaking>(
+      transactionEvent,
+      GGP_VAULT_INTERFACE,
+      "WithdrawnForStaking"
+    );
+  } catch (e) {
+    return;
+  }
+};
+
+export const getRewardsDistributedEvent = async (
+  transactionEvent: TransactionEvent
+): Promise<{ amount: string } | undefined> => {
+  try {
+    return await getMatchingEvent<{ amount: string }>(
+      transactionEvent,
+      GGP_VAULT_INTERFACE,
+      "RewardsDistributed"
     );
   } catch (e) {
     return;

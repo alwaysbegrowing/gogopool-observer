@@ -40,6 +40,43 @@ export interface GGAVAXDeposit extends Event {
   shares: BigNumber;
 }
 
+export interface XGGPDeposit extends Event {
+  sender: string;
+  owner: string;
+  assets: BigNumber;
+  shares: BigNumber;
+}
+
+export interface XGGPWithdraw extends Event {
+  sender: string;
+  receiver: string;
+  owner: string;
+  assets: BigNumber;
+  shares: BigNumber;
+}
+
+export interface GGPCapUpdated extends Event {
+  newMax: BigNumber;
+}
+
+export interface TargetAPRUpdated extends Event {
+  newTargetAPR: BigNumber;
+}
+
+export interface WithdrawnForStaking extends Event {
+  caller: string;
+  assets: BigNumber;
+}
+
+export interface DepositedFromStaking extends Event {
+  caller: string;
+  amount: BigNumber;
+}
+
+export interface RewardsDistributed extends Event {
+  amount: BigNumber;
+}
+
 export interface Withdrawl extends Event {
   src: string;
   wad: BigNumber;
