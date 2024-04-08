@@ -59,6 +59,7 @@ export enum MinipoolStatus {
   CANCELED = "5",
   FINISHED = "6",
   STREAMLINE_PRELAUNCH = "10",
+  STREAMLINE_RELAUNCH = "12",
   RESTAKE = "11",
 }
 

@@ -129,6 +129,16 @@ const getMessageFromStatusChangedEvent = async (
         duration.toString()
       );
 
+    case MinipoolStatus.STREAMLINE_RELAUNCH:
+      return MINIPOOL_RESTAKE_TEMPLATE(
+        transactionEvent,
+        nodeID,
+        owner,
+        duration.toString(),
+        startTime.add(duration).toString(),
+        true
+      );
+
     default:
       throw new Error("unknown status");
   }
@@ -154,6 +164,13 @@ export const minipoolStatusChange = async (context: Context, event: Event) => {
         "NewStreamlinedMinipoolMade"
       )?.length > 0;
     if (hasNewStreamlinedMinipoolMadeEvent) {
+      if(transactionEvent.logs.length > 5) {
+        message = await getMessageFromStatusChangedEvent(
+          statusChangedEvents[0],
+          transactionEvent,
+          MinipoolStatus.STREAMLINE_RELAUNCH
+        );
+      }
       message = await getMessageFromStatusChangedEvent(
         statusChangedEvents[0],
         transactionEvent,

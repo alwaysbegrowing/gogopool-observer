@@ -555,7 +555,8 @@ export const MINIPOOL_RESTAKE_TEMPLATE = (
   nodeId: string,
   owner: string,
   duration: string,
-  endTime: string
+  endTime: string,
+  isOneClick: boolean = false
 ) => {
   return {
     components: [
@@ -569,7 +570,9 @@ export const MINIPOOL_RESTAKE_TEMPLATE = (
       new EmbedBuilder()
         .setTitle("♻️  Another Adventure Begins")
         .setDescription(
-          "The minipool has completed it's flight and is going out for another. Enjoy the ride!\n[📄 the life of a minipool](https://docs.gogopool.com/design/how-minipools-work/the-life-of-a-minipool) [📄 minipool statuses](https://docs.gogopool.com/design/how-minipools-work/minipooldesign)"
+          `The ${
+            isOneClick ? "streamlined " : ""
+          }minipool has completed it's flight and is going out for another. Enjoy the ride!\n[📄 the life of a minipool](https://docs.gogopool.com/design/how-minipools-work/the-life-of-a-minipool) [📄 minipool statuses](https://docs.gogopool.com/design/how-minipools-work/minipooldesign)`
         )
         .addFields(
           pilotField(owner),
