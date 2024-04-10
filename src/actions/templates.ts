@@ -298,7 +298,7 @@ export const MINIPOOL_PRELAUNCH_TEMPLATE = (
         .addFields(
           pilotField(owner),
           balloonField(nodeId),
-          tripDurationField(duration),
+//          tripDurationField(duration),
           minipoolStatusField("prelaunch")
         )
 
@@ -333,7 +333,7 @@ export const MINIPOOL_STREAMLINE_TEMPLATE = (
         .addFields(
           pilotField(owner),
           balloonField(nodeId),
-          tripDurationField(duration),
+//          tripDurationField(duration),
           minipoolStatusField("prelaunch")
         )
         .setColor(0x7ddbd5)
@@ -366,7 +366,7 @@ export const MINIPOOL_LAUNCH_TEMPLATE = (
         .addFields(
           pilotField(owner),
           balloonField(nodeId),
-          tripDurationField(duration),
+//          tripDurationField(duration),
           minipoolStatusField("launched")
         )
 
@@ -400,7 +400,7 @@ export const MINIPOOL_STAKING_TEMPLATE = (
         .addFields(
           pilotField(owner),
           balloonField(nodeId),
-          tripDurationField(duration),
+//          tripDurationField(duration),
           endTimeField(endTime),
           minipoolStatusField("staking")
         )
@@ -435,7 +435,7 @@ export const MINIPOOL_WITHDRAWABLE_TEMPLATE = (
         .addFields(
           pilotField(owner),
           balloonField(nodeId),
-          tripDurationField(duration),
+//          tripDurationField(duration),
           minipoolStatusField("withdrawable")
         )
 
@@ -469,7 +469,7 @@ export const MINIPOOL_FINISHED_TEMPLATE = (
         .addFields(
           pilotField(owner),
           balloonField(nodeId),
-          tripDurationField(duration),
+//          tripDurationField(duration),
           endTimeField(endTime),
           minipoolStatusField("finished")
         )
@@ -504,7 +504,7 @@ export const MINIPOOL_CANCELED_TEMPLATE = (
         .addFields(
           pilotField(owner),
           balloonField(nodeId),
-          tripDurationField(duration),
+//          tripDurationField(duration),
           endTimeField(endTime),
           minipoolStatusField("canceled")
         )
@@ -539,7 +539,7 @@ export const MINIPOOL_ERROR_TEMPLATE = (
         .addFields(
           pilotField(owner),
           balloonField(nodeId),
-          tripDurationField(duration),
+//          tripDurationField(duration),
           endTimeField(endTime),
           minipoolStatusField("error")
         )
@@ -577,7 +577,7 @@ export const MINIPOOL_RESTAKE_TEMPLATE = (
         .addFields(
           pilotField(owner),
           balloonField(nodeId),
-          tripDurationField(duration),
+//          tripDurationField(duration),
           minipoolStatusField("finished -> prelaunch -> launched")
         )
         .setColor(0x7ddbd5)
