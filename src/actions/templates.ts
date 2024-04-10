@@ -1,5 +1,5 @@
 import { TransactionEvent } from "@tenderly/actions";
-import { formatDistance } from "date-fns";
+// import { formatDistance } from "date-fns";
 import {
   APIEmbedField,
   ActionRowBuilder,
@@ -74,20 +74,20 @@ const balloonField = (nodeId: string): APIEmbedField => {
   };
 };
 
-const tripDurationField = (duration: string): APIEmbedField => {
-  const now = new Date();
-  return {
-    name: "📅 trip duration",
-    value: `${formatDistance(
-      now,
-      new Date(now.getTime() + parseInt(duration) * 1000),
-      {
-        addSuffix: false,
-      }
-    )}`,
-    inline: true,
-  };
-};
+// const tripDurationField = (duration: string): APIEmbedField => {
+//   const now = new Date();
+//   return {
+//     name: "📅 trip duration",
+//     value: `${formatDistance(
+//       now,
+//       new Date(now.getTime() + parseInt(duration) * 1000),
+//       {
+//         addSuffix: false,
+//       }
+//     )}`,
+//     inline: true,
+//   };
+// };
 
 const endTimeField = (endTime: string): APIEmbedField => {
   return {
