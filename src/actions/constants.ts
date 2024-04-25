@@ -14,6 +14,7 @@ import { abi as TokenggpAbi } from "./abis/tokenggp";
 import { abi as VaultAbi } from "./abis/vault";
 import { abi as WAVAXAbi } from "./abis/wavax";
 import { abi as MinipoolStreamlinerAbi } from "./abis/minipoolStreamliner";
+import { abi as GGPVaultAbi } from "./abis/ggpvault";
 
 export const isDev = process.env.NODE_ENV === "development";
 
@@ -40,6 +41,8 @@ export const TOKENGG_AVAX_ABI = TokenggAvaxAbi;
 export const TOKENGGP_ABI = TokenggpAbi;
 export const VAULT_ABI = VaultAbi;
 export const WAVAX_ABI = WAVAXAbi;
+export const MINIPOOL_STREAMLINER_ABI = MinipoolStreamlinerAbi;
+export const GGP_VAULT_ABI = GGPVaultAbi;
 
 export const CLAIM_NODE_OP_ADDRESS =
   "0xb42CfaD450B46FDc9cAC5FBF14Bc2e6091AfC35c";
@@ -86,3 +89,4 @@ export const WAVAX_INTERFACE = new utils.Interface(WAVAXAbi);
 export const MINIPOOL_STREAMLINER_INTERFACE = new utils.Interface(
   MinipoolStreamlinerAbi
 );
+export const GGP_VAULT_INTERFACE = new utils.Interface(GGPVaultAbi);
