@@ -1,6 +1,7 @@
 import { Context, Event, TransactionEvent } from "@tenderly/actions";
 import {
   getDepositedFromStakingEvent,
+  getRewardsDistributedEvent,
   getTargetAPRUpdatedEvent,
   getWithdrawnForStakingEvent,
   getXggpCapUpdatedEvent,
@@ -11,6 +12,7 @@ import {
   XGGP_DEPOSIT_DISPLAY_TEMPLATE,
   XGGP_GGP_CAP_UPDATED_TEMPLATE,
   XGGP_STAKING_DEPOSIT_TEMPLATE,
+  XGGP_STAKING_REWARD_TEMPLATE,
   XGGP_STAKING_WITHDRAW_TEMPLATE,
   XGGP_TARGET_APR_UPDATED_TEMPLATE,
   XGGP_WITHDRAW_DISPLAY_TEMPLATE,
@@ -18,6 +20,7 @@ import {
 import {
   DepositedFromStaking,
   GGPCapUpdated,
+  RewardsDistributed,
   TargetAPRUpdated,
   WithdrawnForStaking,
   XGGPDeposit,
@@ -39,8 +42,10 @@ const handleXggpWithdrawEvent = async (
   transactionEvent: TransactionEvent,
   ggpWithdrawnEvent: XGGPWithdraw
 ) => {
-  const { assets } = ggpWithdrawnEvent;
-  await emitter.emit(XGGP_WITHDRAW_DISPLAY_TEMPLATE(transactionEvent, assets));
+  const { assets, address } = ggpWithdrawnEvent;
+  await emitter.emit(
+    XGGP_WITHDRAW_DISPLAY_TEMPLATE(transactionEvent, assets, address)
+  );
 };
 
 const handleXggpCapUpdatedEvent = async (capUpdatedEvent: GGPCapUpdated) => {
@@ -67,6 +72,16 @@ const handleXggpStakingWithdrawEvent = async (
 ) => {
   const { assets, caller } = stakingWithdrawnEvent;
   await emitter.emit(XGGP_STAKING_WITHDRAW_TEMPLATE(assets, caller));
+};
+
+const handleXggpRewardsDistributedEvent = async (
+  transactionEvent: TransactionEvent,
+  rewardsDistributedEvent: RewardsDistributed
+) => {
+  const { amount } = rewardsDistributedEvent;
+  await emitter.emit(
+    XGGP_STAKING_REWARD_TEMPLATE(transactionEvent, amount)
+  );
 };
 
 export const depositOrWithdraw = async (context: Context, event: Event) => {
@@ -100,6 +115,20 @@ export const stateVariablesUpdated = async (context: Context, event: Event) => {
       throw new Error("No Cap or Target APR event found");
     }
     await handleXggpTargetAprUpdatedEvent(targetAprUpdatedEvent);
+  }
+};
+export const rewardsDistributed = async (context: Context, event: Event) => {
+  await initServices(context);
+  const transactionEvent = event as TransactionEvent;
+
+  const rewardsDistributedEvent = await getRewardsDistributedEvent(
+    transactionEvent
+  );
+  if (rewardsDistributedEvent) {
+    await handleXggpRewardsDistributedEvent(
+      transactionEvent,
+      rewardsDistributedEvent
+    );
   }
 };
 

@@ -26,7 +26,7 @@ const pilotComponent = (owner: string) => {
   return new ButtonBuilder()
     .setEmoji("🧑‍✈️")
     .setLabel("Pilot")
-    .setURL(`https://snowtrace.io/address/${owner}`)
+    .setURL(`https://snowscan.xyz/address/${owner}`)
     .setStyle(ButtonStyle.Link);
 };
 
@@ -42,15 +42,15 @@ const liquidStakerComponent = (owner: string) => {
   return new ButtonBuilder()
     .setEmoji("🌊")
     .setLabel("Liquid Staker")
-    .setURL(`https://snowtrace.io/address/${owner}`)
+    .setURL(`https://snowscan.xyz/address/${owner}`)
     .setStyle(ButtonStyle.Link);
 };
 
-const transactionComponent = (transactionHash: string) => {
+const transactionComponent = (hash: string) => {
   return new ButtonBuilder()
     .setEmoji("📝")
     .setLabel("Transaction")
-    .setURL(`https://snowtrace.io/tx/${transactionHash}`)
+    .setURL(`https://snowscan.xyz/tx/${hash}`)
     .setStyle(ButtonStyle.Link);
 };
 
@@ -140,14 +140,14 @@ const differenceField = (
   };
 };
 
-const ggpDifferenceField = (
-  difference: BigNumber,
-  total: BigNumber,
-  subtraction?: boolean,
-  options?: Partial<APIEmbedField>
-) => {
-  return differenceField("GGP", difference, total, subtraction, options);
-};
+// const ggpDifferenceField = (
+//   difference: BigNumber,
+//   total: BigNumber,
+//   subtraction?: boolean,
+//   options?: Partial<APIEmbedField>
+// ) => {
+//   return differenceField("GGP", difference, total, subtraction, options);
+// };
 
 const avaxDifferenceField = (
   difference: BigNumber,
@@ -219,7 +219,7 @@ const liquidStakerField = (
 const liquidStakerDisplay = (owner: string): string =>
   `[${getEmojiAddress(
     utils.getAddress(owner)
-  )}](https://snowtrace.io/address/${owner})`;
+  )}](https://snowscan.xyz/address/${owner})`;
 
 const rewardsCycleStartTimeField = (
   time: BigNumber,
@@ -295,7 +295,7 @@ export const MINIPOOL_PRELAUNCH_TEMPLATE = (
       new ActionRowBuilder<ButtonBuilder>().addComponents(
         pilotComponent(owner),
         balloonComponent(nodeId),
-        transactionComponent(transactionEvent.transactionHash)
+        transactionComponent(transactionEvent.hash)
       ),
     ],
     embeds: [
@@ -330,7 +330,7 @@ export const MINIPOOL_STREAMLINE_TEMPLATE = (
       new ActionRowBuilder<ButtonBuilder>().addComponents(
         pilotComponent(owner),
         balloonComponent(nodeId),
-        transactionComponent(transactionEvent.transactionHash)
+        transactionComponent(transactionEvent.hash)
       ),
     ],
     embeds: [
@@ -363,7 +363,7 @@ export const MINIPOOL_LAUNCH_TEMPLATE = (
       new ActionRowBuilder<ButtonBuilder>().addComponents(
         pilotComponent(owner),
         balloonComponent(nodeId),
-        transactionComponent(transactionEvent.transactionHash)
+        transactionComponent(transactionEvent.hash)
       ),
     ],
     embeds: [
@@ -397,7 +397,7 @@ export const MINIPOOL_STAKING_TEMPLATE = (
       new ActionRowBuilder<ButtonBuilder>().addComponents(
         pilotComponent(owner),
         balloonComponent(nodeId),
-        transactionComponent(transactionEvent.transactionHash)
+        transactionComponent(transactionEvent.hash)
       ),
     ],
     embeds: [
@@ -432,7 +432,7 @@ export const MINIPOOL_WITHDRAWABLE_TEMPLATE = (
       new ActionRowBuilder<ButtonBuilder>().addComponents(
         pilotComponent(owner),
         balloonComponent(nodeId),
-        transactionComponent(transactionEvent.transactionHash)
+        transactionComponent(transactionEvent.hash)
       ),
     ],
     embeds: [
@@ -466,7 +466,7 @@ export const MINIPOOL_FINISHED_TEMPLATE = (
       new ActionRowBuilder<ButtonBuilder>().addComponents(
         pilotComponent(owner),
         balloonComponent(nodeId),
-        transactionComponent(transactionEvent.transactionHash)
+        transactionComponent(transactionEvent.hash)
       ),
     ],
     embeds: [
@@ -501,7 +501,7 @@ export const MINIPOOL_CANCELED_TEMPLATE = (
       new ActionRowBuilder<ButtonBuilder>().addComponents(
         pilotComponent(owner),
         balloonComponent(nodeId),
-        transactionComponent(transactionEvent.transactionHash)
+        transactionComponent(transactionEvent.hash)
       ),
     ],
     embeds: [
@@ -536,7 +536,7 @@ export const MINIPOOL_ERROR_TEMPLATE = (
       new ActionRowBuilder<ButtonBuilder>().addComponents(
         pilotComponent(owner),
         balloonComponent(nodeId),
-        transactionComponent(transactionEvent.transactionHash)
+        transactionComponent(transactionEvent.hash)
       ),
     ],
     embeds: [
@@ -572,7 +572,7 @@ export const MINIPOOL_RESTAKE_TEMPLATE = (
       new ActionRowBuilder<ButtonBuilder>().addComponents(
         pilotComponent(owner),
         balloonComponent(nodeId),
-        transactionComponent(transactionEvent.transactionHash)
+        transactionComponent(transactionEvent.hash)
       ),
     ],
     embeds: [
@@ -611,7 +611,7 @@ export const GGP_STAKING_STAKE_TEMPLATE = (
     components: [
       new ActionRowBuilder<ButtonBuilder>().addComponents(
         pilotComponent(owner),
-        transactionComponent(transactionEvent.transactionHash)
+        transactionComponent(transactionEvent.hash)
       ),
     ],
     embeds: [
@@ -652,7 +652,7 @@ export const GGP_STAKING_WITHDRAW_TEMPLATE = (
     components: [
       new ActionRowBuilder<ButtonBuilder>().addComponents(
         pilotComponent(owner),
-        transactionComponent(transactionEvent.transactionHash)
+        transactionComponent(transactionEvent.hash)
       ),
     ],
     embeds: [
@@ -688,7 +688,7 @@ export const GGAVAX_DEPOSIT_TEMPLATE = (
     components: [
       new ActionRowBuilder<ButtonBuilder>().addComponents(
         liquidStakerComponent(transactionEvent.from),
-        transactionComponent(transactionEvent.transactionHash)
+        transactionComponent(transactionEvent.hash)
       ),
     ],
     embeds: [
@@ -729,8 +729,8 @@ export const GGAVAX_DEPOSIT_DISPLAY_TEMPLATE = (
     embeds: [
       new EmbedBuilder()
         .setDescription(
-          `${title}\n\n[⛓️ transaction](https://snowtrace.io/tx/${
-            transactionEvent.transactionHash
+          `${title}\n\n[⛓️ transaction](https://snowscan.xyz/tx/${
+            transactionEvent.hash
           }) [📄 liquid staking](https://docs.gogopool.com/design/how-liquid-staking-works) ${liquidStakerDisplay(
             transactionEvent.from
           )}`
@@ -750,7 +750,7 @@ export const GGAVAX_WITHDRAW_TEMPLATE = (
     components: [
       new ActionRowBuilder<ButtonBuilder>().addComponents(
         liquidStakerComponent(transactionEvent.from),
-        transactionComponent(transactionEvent.transactionHash)
+        transactionComponent(transactionEvent.hash)
       ),
     ],
     embeds: [
@@ -791,8 +791,8 @@ export const GGAVAX_WITHDRAW_DISPLAY_TEMPLATE = (
     embeds: [
       new EmbedBuilder()
         .setDescription(
-          `${title}\n\n[⛓️ transaction](https://snowtrace.io/tx/${
-            transactionEvent.transactionHash
+          `${title}\n\n[⛓️ transaction](https://snowscan.xyz/tx/${
+            transactionEvent.hash
           }) [📄 liquid staking](https://docs.gogopool.com/design/how-liquid-staking-works) ${liquidStakerDisplay(
             transactionEvent.from
           )}`
@@ -806,41 +806,44 @@ export const XGGP_DEPOSIT_DISPLAY_TEMPLATE = (
   transactionEvent: TransactionEvent,
   { assets, owner, sender, shares }: XGGPDeposit
 ) => {
-  const title = `⬆️ ${ggpAmountDisplay(assets)} Added to the Vault.`;
+  const title = `📥 ${ggpAmountDisplay(
+    assets
+  )} Deposited into the [SeaFi Vault](https://seafi.app)`;
 
   return {
     embeds: [
       new EmbedBuilder()
         .setDescription(
-          `${title}\n\n[⛓️ transaction](https://snowtrace.io/tx/${
-            transactionEvent.transactionHash
+          `${title}\n\n[⛓️ transaction](https://snowscan.xyz/tx/${
+            transactionEvent.hash
           }) [📄 vault deposit](https://docs.seafi.app/overview/depositors) ${liquidStakerDisplay(
             transactionEvent.from
           )}`
         )
-        .setColor(0xaa5566)
-        .setFooter({ text: "[vault] • deposit" }),
+        .setColor(0xaa5566),
     ],
   };
 };
 
 export const XGGP_WITHDRAW_DISPLAY_TEMPLATE = (
   transactionEvent: TransactionEvent,
-  assets: BigNumber
+  assets: BigNumber,
+  address: string
 ) => {
-  const title = `⬇️ ${ggpAmountDisplay(assets)} Drained from the Vault.`;
+  const title = `📤 ${ggpAmountDisplay(
+    assets
+  )} Redeemed from the [SeaFi Vault](https://seafi.app)`;
   return {
     embeds: [
       new EmbedBuilder()
         .setDescription(
-          `${title}\n\n[⛓️ transaction](https://snowtrace.io/tx/${
-            transactionEvent.transactionHash
+          `${title}\n\n[⛓️ transaction](https://snowscan.xyz/tx/${
+            transactionEvent.hash
           }) [📄 vault withdraw](https://docs.seafi.app/overview/depositors) ${liquidStakerDisplay(
             transactionEvent.from
           )}`
         )
-        .setColor(0xaa4950)
-        .setFooter({ text: "[vault] • withdraw" }),
+        .setColor(0xaa4950),
     ],
   };
 };
@@ -871,33 +874,62 @@ export const XGGP_TARGET_APR_UPDATED_TEMPLATE = (
   };
 };
 
-export const XGGP_STAKING_DEPOSIT_TEMPLATE = (assets: BigNumber) => {
+export const XGGP_STAKING_DEPOSIT_TEMPLATE = (
+  assets: BigNumber,
+  caller: string
+) => {
   return {
     embeds: [
       new EmbedBuilder()
-        .setTitle(`⬆️ ${ggpAmountDisplay(assets)} tokens added.`)
+        .setTitle(`⬆️ ${ggpAmountDisplay(assets)} tokens added by ${caller}.`)
         .setDescription(
           `Liquidity in the vault has decreased as GGP was delegated to a GoGoPool staker.\n[📄 vault strategy](https://docs.seafi.app/overview/vault-strategy-node-operation)`
         )
-        .setColor(0xaa5566)
-        .setFooter({ text: "[vault] • deposit" }),
+        .setColor(0xaa5566),
     ],
   };
 };
 
-export const XGGP_STAKING_WITHDRAW_TEMPLATE = (amount: BigNumber) => {
+export const XGGP_STAKING_WITHDRAW_TEMPLATE = (
+  amount: BigNumber,
+  caller: string
+) => {
   return {
     embeds: [
       new EmbedBuilder()
-        .setTitle(`⬇️ ${ggpAmountDisplay(amount)} tokens withdrawn.`)
+        .setTitle(
+          `⬇️ ${ggpAmountDisplay(amount)} tokens withdrawn by ${caller}.`
+        )
         .setDescription(
           `Liquidity in the vault has increased as GGP was withdrawn from a GoGoPool staker.\n[📄 vault strategy](https://docs.seafi.app/overview/vault-strategy-node-operation)`
         )
-        .setColor(0xaa4950)
-        .setFooter({ text: "[vault] • withdraw" }),
+        .setColor(0xaa4950),
     ],
   };
 };
+
+export const XGGP_STAKING_REWARD_TEMPLATE = (
+  transactionEvent: TransactionEvent,
+  amount: BigNumber
+) => {
+  return {
+    components: [
+      new ActionRowBuilder<ButtonBuilder>().addComponents(
+        transactionComponent(transactionEvent.hash)
+      ),
+    ],
+    embeds: [
+      new EmbedBuilder()
+        .setTitle(`🎉 ${ggpAmountDisplay(amount)} Rewarded to the Vault`)
+        .setDescription(
+          `Rewards have been claimed and distributed to the [SeaFi Vault](https://seafi.app), increasing the value of xGGP.\n[📄 vault strategy](https://docs.seafi.app/overview/vault-strategy-node-operation)`
+        )
+        .setColor(0xaa4950)
+        .setFooter({ text: "[vault] • rewards" }),
+    ],
+  };
+};
+
 export const REWARDS_NEW_CYCLE_TEMPLATE = ({
   rewardsCycleStartTime,
   rewardsEligibilityTime,

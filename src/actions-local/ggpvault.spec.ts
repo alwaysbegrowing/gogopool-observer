@@ -3,47 +3,16 @@ import { TestRuntime } from "@tenderly/actions-test";
 
 import { beforeAll, describe, test } from "vitest";
 
-import { depositOrWithdraw, stakingTransactions, stateVariablesUpdated } from "../actions/ggpvault";
+import {
+  depositOrWithdraw,
+  rewardsDistributed,
+  stakingTransactions,
+  stateVariablesUpdated,
+} from "../actions/ggpvault";
+import { getRewardsDistributedEvent } from "../actions/logParsing";
 
 config();
-/*
 
-export interface XGGPDeposit extends Event {
-  sender: string;
-  owner: string;
-  assets: BigNumber;
-  shares: BigNumber;
-}
-
-export interface XGGPWithdraw extends Event {
-  sender: string;
-  receiver: string;
-  owner: string;
-  assets: BigNumber;
-  shares: BigNumber;
-}
-
-export interface GGPCapUpdated extends Event {
-  newMax: BigNumber;
-}
-
-export interface TargetAPRUpdated extends Event {
-  newTargetAPR: BigNumber;
-}
-
-export interface WithdrawnForStaking extends Event {
-  caller: string;
-  assets: BigNumber;
-}
-
-export interface DepositedFromStaking extends Event {
-  caller: string;
-  amount: BigNumber;
-}
-
-export interface RewardsDistributed extends Event {
-  amount: BigNumber;
-}*/
 describe("GGP Vault", () => {
   const testRuntime = new TestRuntime();
   beforeAll(() => {
@@ -100,11 +69,11 @@ describe("GGP Vault", () => {
       );
     });
   });
-  describe.skip("rewards", () => {
+  describe("rewards", () => {
     test.concurrent("distributed", async () => {
       await testRuntime.execute(
-        depositOrWithdraw,
-        require("./payload/payload-ggpvault-rewards.json")
+        rewardsDistributed,
+        require("./payload/payload-ggpvault-distribute-rewards.json")
       );
     });
   });

@@ -12,6 +12,7 @@ import {
   GGPCapUpdated,
   GGPStaked,
   GGPWithdrawn,
+  RewardsDistributed,
   TargetAPRUpdated,
   WithdrawnForStaking,
   XGGPDeposit,
@@ -235,9 +236,9 @@ export const getWithdrawnForStakingEvent = async (
 
 export const getRewardsDistributedEvent = async (
   transactionEvent: TransactionEvent
-): Promise<{ amount: string } | undefined> => {
+): Promise<RewardsDistributed | undefined> => {
   try {
-    return await getMatchingEvent<{ amount: string }>(
+    return await getMatchingEvent<RewardsDistributed>(
       transactionEvent,
       GGP_VAULT_INTERFACE,
       "RewardsDistributed"
