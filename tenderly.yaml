@@ -63,7 +63,7 @@ actions:
               - mined
       vault:
         description: vault changed.
-        function: vault:depositOrWithdraw
+        function: ggpvault:depositOrWithdraw
         trigger:
           type: transaction
           transaction:
@@ -91,7 +91,7 @@ actions:
 
       vaultRewards:
         description: vault rewards.
-        function: vault:rewardsDistributed
+        function: ggpvault:rewardsDistributed
         trigger:
           type: transaction
           transaction:
