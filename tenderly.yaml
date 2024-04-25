@@ -88,22 +88,6 @@ actions:
                 status: success
             status:
               - mined
-
-      vaultRewards:
-        description: vault rewards.
-        function: ggpvault:rewardsDistributed
-        trigger:
-          type: transaction
-          transaction:
-            filters:
-              - network: 43114
-                eventEmitted:
-                  contract:
-                    address: 0xdF34022e8a280fc79499cA560439Bb6f9797EbD8
-                  name: RewardsDistributed
-                status: success
-            status:
-              - mined
       rewards:
         description: rewards.
         function: rewards:checkRewardsPeriodic
