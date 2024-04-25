@@ -164,19 +164,11 @@ export const minipoolStatusChange = async (context: Context, event: Event) => {
         "NewStreamlinedMinipoolMade"
       )?.length > 0;
     if (hasNewStreamlinedMinipoolMadeEvent) {
-      if (transactionEvent.logs.length > 5) {
-        message = await getMessageFromStatusChangedEvent(
-          statusChangedEvents[0],
-          transactionEvent,
-          MinipoolStatus.STREAMLINE_RELAUNCH
-        );
-      } else {
-        message = await getMessageFromStatusChangedEvent(
-          statusChangedEvents[0],
-          transactionEvent,
-          MinipoolStatus.STREAMLINE_PRELAUNCH
-        );
-      }
+      message = await getMessageFromStatusChangedEvent(
+        statusChangedEvents[0],
+        transactionEvent,
+        MinipoolStatus.STREAMLINE_PRELAUNCH
+      );
     } else {
       message = await getMessageFromStatusChangedEvent(
         statusChangedEvents[0],
