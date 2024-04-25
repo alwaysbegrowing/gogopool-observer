@@ -1,5 +1,5 @@
 import { TransactionEvent } from "@tenderly/actions";
-import { formatDistance } from "date-fns";
+// import { formatDistance } from "date-fns";
 import {
   APIEmbedField,
   ActionRowBuilder,
@@ -74,20 +74,20 @@ const balloonField = (nodeId: string): APIEmbedField => {
   };
 };
 
-const tripDurationField = (duration: string): APIEmbedField => {
-  const now = new Date();
-  return {
-    name: "📅 trip duration",
-    value: `${formatDistance(
-      now,
-      new Date(now.getTime() + parseInt(duration) * 1000),
-      {
-        addSuffix: false,
-      }
-    )}`,
-    inline: true,
-  };
-};
+// const tripDurationField = (duration: string): APIEmbedField => {
+//   const now = new Date();
+//   return {
+//     name: "📅 trip duration",
+//     value: `${formatDistance(
+//       now,
+//       new Date(now.getTime() + parseInt(duration) * 1000),
+//       {
+//         addSuffix: false,
+//       }
+//     )}`,
+//     inline: true,
+//   };
+// };
 
 const endTimeField = (endTime: string): APIEmbedField => {
   return {
@@ -307,7 +307,7 @@ export const MINIPOOL_PRELAUNCH_TEMPLATE = (
         .addFields(
           pilotField(owner),
           balloonField(nodeId),
-          tripDurationField(duration),
+          //          tripDurationField(duration),
           minipoolStatusField("prelaunch")
         )
 
@@ -342,7 +342,7 @@ export const MINIPOOL_STREAMLINE_TEMPLATE = (
         .addFields(
           pilotField(owner),
           balloonField(nodeId),
-          tripDurationField(duration),
+          //          tripDurationField(duration),
           minipoolStatusField("prelaunch")
         )
         .setColor(0x7ddbd5)
@@ -375,7 +375,7 @@ export const MINIPOOL_LAUNCH_TEMPLATE = (
         .addFields(
           pilotField(owner),
           balloonField(nodeId),
-          tripDurationField(duration),
+          //          tripDurationField(duration),
           minipoolStatusField("launched")
         )
 
@@ -409,7 +409,7 @@ export const MINIPOOL_STAKING_TEMPLATE = (
         .addFields(
           pilotField(owner),
           balloonField(nodeId),
-          tripDurationField(duration),
+          //          tripDurationField(duration),
           endTimeField(endTime),
           minipoolStatusField("staking")
         )
@@ -444,7 +444,7 @@ export const MINIPOOL_WITHDRAWABLE_TEMPLATE = (
         .addFields(
           pilotField(owner),
           balloonField(nodeId),
-          tripDurationField(duration),
+          //          tripDurationField(duration),
           minipoolStatusField("withdrawable")
         )
 
@@ -478,7 +478,7 @@ export const MINIPOOL_FINISHED_TEMPLATE = (
         .addFields(
           pilotField(owner),
           balloonField(nodeId),
-          tripDurationField(duration),
+          //          tripDurationField(duration),
           endTimeField(endTime),
           minipoolStatusField("finished")
         )
@@ -513,7 +513,7 @@ export const MINIPOOL_CANCELED_TEMPLATE = (
         .addFields(
           pilotField(owner),
           balloonField(nodeId),
-          tripDurationField(duration),
+          //          tripDurationField(duration),
           endTimeField(endTime),
           minipoolStatusField("canceled")
         )
@@ -548,7 +548,7 @@ export const MINIPOOL_ERROR_TEMPLATE = (
         .addFields(
           pilotField(owner),
           balloonField(nodeId),
-          tripDurationField(duration),
+          //          tripDurationField(duration),
           endTimeField(endTime),
           minipoolStatusField("error")
         )
@@ -564,7 +564,8 @@ export const MINIPOOL_RESTAKE_TEMPLATE = (
   nodeId: string,
   owner: string,
   duration: string,
-  endTime: string
+  endTime: string,
+  isOneClick: boolean = false
 ) => {
   return {
     components: [
@@ -578,12 +579,14 @@ export const MINIPOOL_RESTAKE_TEMPLATE = (
       new EmbedBuilder()
         .setTitle("♻️  Another Adventure Begins")
         .setDescription(
-          "The minipool has completed it's flight and is going out for another. Enjoy the ride!\n[📄 the life of a minipool](https://docs.gogopool.com/design/how-minipools-work/the-life-of-a-minipool) [📄 minipool statuses](https://docs.gogopool.com/design/how-minipools-work/minipooldesign)"
+          `The ${
+            isOneClick ? "streamlined " : ""
+          }minipool has completed it's flight and is going out for another. Enjoy the ride!\n[📄 the life of a minipool](https://docs.gogopool.com/design/how-minipools-work/the-life-of-a-minipool) [📄 minipool statuses](https://docs.gogopool.com/design/how-minipools-work/minipooldesign)`
         )
         .addFields(
           pilotField(owner),
           balloonField(nodeId),
-          tripDurationField(duration),
+          //          tripDurationField(duration),
           minipoolStatusField("finished -> prelaunch -> launched")
         )
         .setColor(0x7ddbd5)
@@ -624,7 +627,7 @@ export const GGP_STAKING_STAKE_TEMPLATE = (
           ggpAmountField(amount, {
             name: "stake amount",
           }),
-          ggpDifferenceField(amount, totalStake, false, {
+          ggpAmountField(totalStake, {
             name: "total stake",
           })
         )
@@ -665,7 +668,7 @@ export const GGP_STAKING_WITHDRAW_TEMPLATE = (
           ggpAmountField(amount, {
             name: "un-stake amount",
           }),
-          ggpDifferenceField(amount, totalStake, true, {
+          ggpAmountField(totalStake, {
             name: "total stake",
           })
         )

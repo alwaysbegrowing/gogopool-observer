@@ -129,6 +129,16 @@ const getMessageFromStatusChangedEvent = async (
         duration.toString()
       );
 
+    case MinipoolStatus.STREAMLINE_RELAUNCH:
+      return MINIPOOL_RESTAKE_TEMPLATE(
+        transactionEvent,
+        nodeID,
+        owner,
+        duration.toString(),
+        startTime.add(duration).toString(),
+        true
+      );
+
     default:
       throw new Error("unknown status");
   }
