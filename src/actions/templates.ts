@@ -302,7 +302,7 @@ export const MINIPOOL_PRELAUNCH_TEMPLATE = (
       new EmbedBuilder()
         .setTitle("🌄  Preparing for Takeoff")
         .setDescription(
-          "A minipool is getting ready for a remarkable ride. Node Operator has deposited 1,000 AVAX and is now waiting on liquid staking fuel.\n[📄 the life of a minipool](https://docs.gogopool.com/design/how-minipools-work/the-life-of-a-minipool) [📄 minipool statuses](https://docs.gogopool.com/design/how-minipools-work/minipooldesign)"
+          "A minipool is getting ready for a remarkable ride. Node Operator has deposited 1,000 AVAX and is now waiting on liquid staking fuel.\n[📄 the life of a minipool](https://docs.gogopool.com/minipool/how-minipool-works) [📄 minipool statuses](https://docs.gogopool.com/minipool/minipool-statuses)"
         )
         .addFields(
           pilotField(owner),
@@ -337,7 +337,7 @@ export const MINIPOOL_STREAMLINE_TEMPLATE = (
       new EmbedBuilder()
         .setTitle("🖱️  One-Click Launch Initiated")
         .setDescription(
-          "With the magic of a single click, all preparations are complete. The Node Operator has started the journey with 1,111 AVAX, bypassing the complexities of traditional setup. Ready for a rewarding flight?\n[📄 One Click Minipool Guide](https://docs.gogopool.com/design/how-minipools-work/one-click-launcher)"
+          "With the magic of a single click, all preparations are complete. The Node Operator has started the journey with 1,111 AVAX, bypassing the complexities of traditional setup. Ready for a rewarding flight?\n[📄 One Click Minipool Guide](https://docs.gogopool.com/minipool/how-one-click-launcher-works)"
         )
         .addFields(
           pilotField(owner),
@@ -370,7 +370,7 @@ export const MINIPOOL_LAUNCH_TEMPLATE = (
       new EmbedBuilder()
         .setTitle("🚀  Inflated and... Lift-off")
         .setDescription(
-          "Hooray! Matched with liquid staker funds, this minipool has fully inflated, and the pilot has climbed aboard. It appears to be raising up up up. Let's hope for a smooth flight.\n[📄 the life of a minipool](https://docs.gogopool.com/design/how-minipools-work/the-life-of-a-minipool) [📄 minipool statuses](https://docs.gogopool.com/design/how-minipools-work/minipooldesign)"
+          "Hooray! Matched with liquid staker funds, this minipool has fully inflated, and the pilot has climbed aboard. It appears to be raising up up up. Let's hope for a smooth flight.\n[📄 the life of a minipool](https://docs.gogopool.com/minipool/how-minipool-works) [📄 minipool statuses](https://docs.gogopool.com/minipool/minipool-statuses)"
         )
         .addFields(
           pilotField(owner),
@@ -404,7 +404,7 @@ export const MINIPOOL_STAKING_TEMPLATE = (
       new EmbedBuilder()
         .setTitle("⛅  Approached Cruising Altitude")
         .setDescription(
-          "Actively validating and discovering rewards, the minipool floats through the staking skies. It will remain in this lofty state until it's time to land.\n[📄 the life of a minipool](https://docs.gogopool.com/design/how-minipools-work/the-life-of-a-minipool) [📄 minipool statuses](https://docs.gogopool.com/design/how-minipools-work/minipooldesign)"
+          "Actively validating and discovering rewards, the minipool floats through the staking skies. It will remain in this lofty state until it's time to land.\n[📄 the life of a minipool](https://docs.gogopool.com/minipool/how-minipool-works) [📄 minipool statuses](https://docs.gogopool.com/minipool/minipool-statuses)"
         )
         .addFields(
           pilotField(owner),
@@ -439,7 +439,7 @@ export const MINIPOOL_WITHDRAWABLE_TEMPLATE = (
       new EmbedBuilder()
         .setTitle("🌎  Return to Earth")
         .setDescription(
-          "A minipool ripe with rewards descends, and the time has come to collect the treasures we've found in the sky. Prepare for a gentle glide back to the ground.\n[📄 the life of a minipool](https://docs.gogopool.com/design/how-minipools-work/the-life-of-a-minipool) [📄 minipool statuses](https://docs.gogopool.com/design/how-minipools-work/minipooldesign)"
+          "A minipool ripe with rewards descends, and the time has come to collect the treasures we've found in the sky. Prepare for a gentle glide back to the ground.\n[📄 the life of a minipool](https://docs.gogopool.com/minipool/how-minipool-works) [📄 minipool statuses](https://docs.gogopool.com/minipool/minipool-statuses)"
         )
         .addFields(
           pilotField(owner),
@@ -473,7 +473,7 @@ export const MINIPOOL_FINISHED_TEMPLATE = (
       new EmbedBuilder()
         .setTitle("🎉  Celebrating Success")
         .setDescription(
-          "A completed and enchanting adventure among the clouds. The minipool is deflated, tokens collected, and memories cherished. Farewell, until we see you again in the staking skies!\n[📄 the life of a minipool](https://docs.gogopool.com/design/how-minipools-work/the-life-of-a-minipool) [📄 minipool statuses](https://docs.gogopool.com/design/how-minipools-work/minipooldesign)"
+          "A completed and enchanting adventure among the clouds. The minipool is deflated, tokens collected, and memories cherished. Farewell, until we see you again in the staking skies!\n[📄 the life of a minipool](https://docs.gogopool.com/minipool/how-minipool-works) [📄 minipool statuses](https://docs.gogopool.com/minipool/minipool-statuses)"
         )
         .addFields(
           pilotField(owner),
@@ -508,7 +508,7 @@ export const MINIPOOL_CANCELED_TEMPLATE = (
       new EmbedBuilder()
         .setTitle("⚠️  A Hasty Halt to our Hovering")
         .setDescription(
-          "Alas, this minipool's journey has been called off. Heading back to terra firma, tokens in tow. A new adventure awaits, as a new flight awaits.\n[📄 the life of a minipool](https://docs.gogopool.com/design/how-minipools-work/the-life-of-a-minipool) [📄 minipool statuses](https://docs.gogopool.com/design/how-minipools-work/minipooldesign)"
+          "Alas, this minipool's journey has been called off. Heading back to terra firma, tokens in tow. A new adventure awaits, as a new flight awaits.\n[📄 the life of a minipool](https://docs.gogopool.com/minipool/how-minipool-works) [📄 minipool statuses](https://docs.gogopool.com/minipool/minipool-statuses)"
         )
         .addFields(
           pilotField(owner),
@@ -543,7 +543,7 @@ export const MINIPOOL_ERROR_TEMPLATE = (
       new EmbedBuilder()
         .setTitle("❗  Mid-Air Mishap")
         .setDescription(
-          "Oh dear, it seems the minipool has encountered a hiccup! Fear not, for we shall set things right and resume our whimsical wanderings through the staking skies.\n[📄 the life of a minipool](https://docs.gogopool.com/design/how-minipools-work/the-life-of-a-minipool) [📄 minipool statuses](https://docs.gogopool.com/design/how-minipools-work/minipooldesign)"
+          "Oh dear, it seems the minipool has encountered a hiccup! Fear not, for we shall set things right and resume our whimsical wanderings through the staking skies.\n[📄 the life of a minipool](https://docs.gogopool.com/minipool/how-minipool-works) [📄 minipool statuses](https://docs.gogopool.com/minipool/minipool-statuses)"
         )
         .addFields(
           pilotField(owner),
@@ -581,7 +581,7 @@ export const MINIPOOL_RESTAKE_TEMPLATE = (
         .setDescription(
           `The ${
             isOneClick ? "streamlined " : ""
-          }minipool has completed it's flight and is going out for another. Enjoy the ride!\n[📄 the life of a minipool](https://docs.gogopool.com/design/how-minipools-work/the-life-of-a-minipool) [📄 minipool statuses](https://docs.gogopool.com/design/how-minipools-work/minipooldesign)`
+          }minipool has completed it's flight and is going out for another. Enjoy the ride!\n[📄 the life of a minipool](https://docs.gogopool.com/minipool/how-minipool-works) [📄 minipool statuses](https://docs.gogopool.com/minipool/minipool-statuses)`
         )
         .addFields(
           pilotField(owner),
@@ -620,7 +620,7 @@ export const GGP_STAKING_STAKE_TEMPLATE = (
         .setDescription(
           `${stakingMessage(
             isNodeOperator
-          )}\n[📄 GGP rewards](https://docs.gogopool.com/design/how-minipools-work/ggp-rewards)`
+          )}\n[📄 GGP rewards](https://docs.gogopool.com/minipool/how-minipool-works#ggp-rewards-eligibility-and-distribution)`
         )
         .addFields(
           pilotField(owner),
@@ -661,7 +661,7 @@ export const GGP_STAKING_WITHDRAW_TEMPLATE = (
         .setDescription(
           `${unstakingMessage(
             isNodeOperator
-          )}\n[📄 GGP rewards](https://docs.gogopool.com/design/how-minipools-work/ggp-rewards)`
+          )}\n[📄 GGP rewards](https://docs.gogopool.com/minipool/how-minipool-works#ggp-rewards-eligibility-and-distribution)`
         )
         .addFields(
           pilotField(owner, { inline: false }),
@@ -695,7 +695,7 @@ export const GGAVAX_DEPOSIT_TEMPLATE = (
       new EmbedBuilder()
         .setTitle("⬆️ AVAX Fuel Added.")
         .setDescription(
-          "AVAX has been deposited to the liquid staking pool and shares of ggAVAX have been minted.\n[📄 liquid staking](https://docs.gogopool.com/design/how-liquid-staking-works)"
+          "AVAX has been deposited to the liquid staking pool and shares of ggAVAX have been minted.\n[📄 liquid staking](https://docs.gogopool.com/liquid-staking/how-liquid-staking-works)"
         )
         .addFields(
           liquidStakerField(transactionEvent.from, { inline: false }),
@@ -731,7 +731,7 @@ export const GGAVAX_DEPOSIT_DISPLAY_TEMPLATE = (
         .setDescription(
           `${title}\n\n[⛓️ transaction](https://snowscan.xyz/tx/${
             transactionEvent.hash
-          }) [📄 liquid staking](https://docs.gogopool.com/design/how-liquid-staking-works) ${liquidStakerDisplay(
+          }) [📄 liquid staking](https://docs.gogopool.com/liquid-staking/how-liquid-staking-works) ${liquidStakerDisplay(
             transactionEvent.from
           )}`
         )
@@ -757,7 +757,7 @@ export const GGAVAX_WITHDRAW_TEMPLATE = (
       new EmbedBuilder()
         .setTitle("⬇️ AVAX Fuel Drained.")
         .setDescription(
-          "AVAX has been withdrawn from the liquid staking pool and shares of ggAVAX have been burned.\n[📄 liquid staking](https://docs.gogopool.com/design/how-liquid-staking-works)"
+          "AVAX has been withdrawn from the liquid staking pool and shares of ggAVAX have been burned.\n[📄 liquid staking](https://docs.gogopool.com/liquid-staking/how-liquid-staking-works)"
         )
         .addFields(
           liquidStakerField(transactionEvent.from, { inline: false }),
@@ -793,7 +793,7 @@ export const GGAVAX_WITHDRAW_DISPLAY_TEMPLATE = (
         .setDescription(
           `${title}\n\n[⛓️ transaction](https://snowscan.xyz/tx/${
             transactionEvent.hash
-          }) [📄 liquid staking](https://docs.gogopool.com/design/how-liquid-staking-works) ${liquidStakerDisplay(
+          }) [📄 liquid staking](https://docs.gogopool.com/liquid-staking/how-liquid-staking-works) ${liquidStakerDisplay(
             transactionEvent.from
           )}`
         )
@@ -946,7 +946,7 @@ export const REWARDS_NEW_CYCLE_TEMPLATE = ({
         )
         .setDescription(
           `The ${cycle} GGP rewards cycle has started. Eligible Node Operators can stake GGP to their minipools to earn rewards. This cycle end: <t:${rewardsCycleEndTime}:R>.
-[📄 GGP Rewards](https://docs.gogopool.com/design/how-minipools-work/ggp-rewards)`
+[📄 GGP Rewards](https://docs.gogopool.com/minipool/how-minipool-works#ggp-rewards-eligibility-and-distribution)`
         )
         .addFields(
           rewardsCycleStartTimeField(rewardsCycleStartTime),
@@ -973,7 +973,7 @@ export const REWARDS_ELIGIBILITY_REMINDER_TEMPLATE = ({
         .setTitle(`ℹ️ Registration Reminder for the ${cycle} Great Flight.`)
         .setDescription(
           `Eligibility cut-off for the ${cycle} rewards period: <t:${rewardsEligibilityTime}:R>. Your minipool must be registered before this time to be eligible. Node operators with registered minipools will receive a share of this cycle's rewards.
-[📄 GGP Rewards](https://docs.gogopool.com/design/how-minipools-work/ggp-rewards)`
+[📄 GGP Rewards](https://docs.gogopool.com/minipool/how-minipool-works#ggp-rewards-eligibility-and-distribution)`
         )
         .addFields(
           rewardsCycleEligibilityField(rewardsEligibilityTime),
@@ -1000,7 +1000,7 @@ export const REWARDS_ENDING_REMINDER_TEMPLATE = ({
         .setTitle(`🏁 Ending Reminder for the ${cycle} Great Flight.`)
         .setDescription(
           `The ${cycle} rewards cycle end: <t:${rewardsCycleEndTime}:R>. At that time, eligible Node Operators will receive a share of the rewards for the cycle.
-[📄 GGP Rewards](https://docs.gogopool.com/design/how-minipools-work/ggp-rewards)`
+[📄 GGP Rewards](https://docs.gogopool.com/minipool/how-minipool-works#ggp-rewards-eligibility-and-distribution)`
         )
         .addFields(
           rewardsCycleStartTimeField(rewardsCycleStartTime),
