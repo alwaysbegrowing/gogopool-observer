@@ -87,6 +87,12 @@ export interface AVAXDeposited extends Event {
   amount: BigNumber;
 }
 
+export interface NewStreamlinedMinipoolMade extends Event {
+  nodeID: string;
+  owner: string;
+  hardwareProviderContract: BigNumber;
+}
+
 export enum MinipoolStatus {
   PRELAUNCH = "0",
   LAUNCH = "1",
@@ -120,6 +126,7 @@ export type Minipool = {
   errorCode: string;
   ggpSlashAmt: BigNumber;
   avaxNodeOpRewardAmt: BigNumber;
+  blsPubkeyAndSig: string;
   avaxLiquidStakerRewardAmt: BigNumber;
 };
 

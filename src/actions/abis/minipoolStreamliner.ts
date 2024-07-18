@@ -6,22 +6,70 @@ export const abi = [
         name: "storageAddress",
         type: "address",
       },
-      { internalType: "address", name: "WAVAX", type: "address" },
-      { internalType: "address", name: "TJRouter", type: "address" },
+      {
+        internalType: "address",
+        name: "WAVAX",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "TJRouter",
+        type: "address",
+      },
     ],
     stateMutability: "nonpayable",
     type: "constructor",
   },
-  { inputs: [], name: "ContractNotFound", type: "error" },
-  { inputs: [], name: "ContractPaused", type: "error" },
-  { inputs: [], name: "InvalidOrOutdatedContract", type: "error" },
-  { inputs: [], name: "MismatchedFunds", type: "error" },
-  { inputs: [], name: "MustBeGuardian", type: "error" },
-  { inputs: [], name: "MustBeGuardianOrValidContract", type: "error" },
-  { inputs: [], name: "MustBeMultisig", type: "error" },
-  { inputs: [], name: "NotApprovedHardwareProvider", type: "error" },
-  { inputs: [], name: "OnlyOwner", type: "error" },
-  { inputs: [], name: "SwapFailed", type: "error" },
+  {
+    inputs: [],
+    name: "ContractNotFound",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "ContractPaused",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidOrOutdatedContract",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "MismatchedFunds",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "MustBeGuardian",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "MustBeGuardianOrValidContract",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "MustBeMultisig",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "NotApprovedHardwareProvider",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "OnlyOwner",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "SwapFailed",
+    type: "error",
+  },
   {
     anonymous: false,
     inputs: [
@@ -76,15 +124,31 @@ export const abi = [
     inputs: [
       {
         components: [
-          { internalType: "address", name: "nodeID", type: "address" },
-          { internalType: "bytes", name: "blsPubkeyAndSig", type: "bytes" },
-          { internalType: "uint256", name: "duration", type: "uint256" },
+          {
+            internalType: "address",
+            name: "nodeID",
+            type: "address",
+          },
+          {
+            internalType: "bytes",
+            name: "blsPubkeyAndSig",
+            type: "bytes",
+          },
+          {
+            internalType: "uint256",
+            name: "duration",
+            type: "uint256",
+          },
           {
             internalType: "uint256",
             name: "avaxForMinipool",
             type: "uint256",
           },
-          { internalType: "uint256", name: "avaxForGGP", type: "uint256" },
+          {
+            internalType: "uint256",
+            name: "avaxForGGP",
+            type: "uint256",
+          },
           {
             internalType: "uint256",
             name: "minGGPAmountOut",
@@ -118,10 +182,20 @@ export const abi = [
   },
   {
     inputs: [
-      { internalType: "address", name: "contractAddress", type: "address" },
+      {
+        internalType: "address",
+        name: "contractAddress",
+        type: "address",
+      },
     ],
     name: "isApprovedHardwareProvider",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
     stateMutability: "view",
     type: "function",
   },
@@ -134,13 +208,29 @@ export const abi = [
   },
   {
     inputs: [
-      { internalType: "address", name: "user", type: "address" },
-      { internalType: "uint256", name: "avaxForGGP", type: "uint256" },
-      { internalType: "uint256", name: "minGGPAmountOut", type: "uint256" },
+      {
+        internalType: "address",
+        name: "user",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "avaxForGGP",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "minGGPAmountOut",
+        type: "uint256",
+      },
     ],
     name: "swapAndStakeGGPOnBehalfOf",
     outputs: [
-      { internalType: "uint256", name: "ggpPurchased", type: "uint256" },
+      {
+        internalType: "uint256",
+        name: "ggpPurchased",
+        type: "uint256",
+      },
     ],
     stateMutability: "payable",
     type: "function",
@@ -148,7 +238,13 @@ export const abi = [
   {
     inputs: [],
     name: "version",
-    outputs: [{ internalType: "uint8", name: "", type: "uint8" }],
+    outputs: [
+      {
+        internalType: "uint8",
+        name: "",
+        type: "uint8",
+      },
+    ],
     stateMutability: "view",
     type: "function",
   },

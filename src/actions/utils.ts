@@ -5,6 +5,7 @@ import { Buffer } from "buffer/"; // note: the slash is important!
 import ms from "ms";
 import { Context } from "@tenderly/actions";
 import { discordClient } from "./discord";
+import { knockClient } from "./knock";
 import { jsonRpcProvider } from "./ethers";
 import {
   DATABASE_COLLECTION_SECRET_NAME,
@@ -12,9 +13,11 @@ import {
   DATABASE_URI_SECRET_NAME,
   DISCORD_WEBHOOK_URL_SECRET_NAME,
   JSON_RPC_URL_SECRET_NAME,
+  KNOCK_TOKEN_SECRET_NAME,
 } from "./constants";
 import { databaseClient } from "./database";
 import { emitter } from "./emitter";
+import { Hex, toBytes, decodeAbiParameters, parseAbiParameters } from "viem";
 
 const bintools = BinTools.getInstance();
 
@@ -132,8 +135,9 @@ export const initServices = async (context: Context) => {
     await context.secrets.get(DATABASE_NAME_SECRET_NAME),
     await context.secrets.get(DATABASE_COLLECTION_SECRET_NAME)
   );
-
   emitter.addClient(databaseClient);
+  knockClient.init(await context.secrets.get(KNOCK_TOKEN_SECRET_NAME));
+  emitter.addClient(knockClient);
 };
 
 export const getOrdinal = (n: number) => {
@@ -153,3 +157,27 @@ export const getOrdinal = (n: number) => {
 export const getOrdinalDisplay = (n: BigNumber) => {
   return `${n.toString()}${getOrdinal(n.toNumber())}`;
 };
+
+export const decodeBLSKeys = (blsPubkeyAndSig: Hex) => {
+  try {
+    // Validate the input length (dynamic bytes should at least have size prefixes).
+    // pubkey is at least 48 and sig is at least 96 bytes
+    if (toBytes(blsPubkeyAndSig).length < 144) {
+      return { pubKey: undefined, sig: undefined };
+    }
+
+    const [pubKey, sig] = decodeAbiParameters(
+      parseAbiParameters("bytes, bytes"),
+      blsPubkeyAndSig
+    );
+
+    return {
+      pubKey: pubKey as string,
+      sig: sig as string,
+    };
+  } catch (error) {
+    console.error({ error });
+    return { pubKey: undefined, sig: undefined };
+  }
+};
+ 

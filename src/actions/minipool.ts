@@ -14,13 +14,21 @@ import {
   MINIPOOL_STAKING_TEMPLATE,
   MINIPOOL_STREAMLINE_TEMPLATE,
   MINIPOOL_WITHDRAWABLE_TEMPLATE,
+  SLACK_STREAMLINED_MINIPOOL_LAUNCH_TEMPLATE,
 } from "./templates";
 import { getMatchingEvents } from "./logParsing";
-import { Minipool, MinipoolStatus, MinipoolStatusChanged } from "./types";
+import {
+  Minipool,
+  MinipoolStatus,
+  MinipoolStatusChanged,
+  NewStreamlinedMinipoolMade,
+} from "./types";
 import { jsonRpcProvider } from "./ethers";
 import { WebhookMessageCreateOptions } from "discord.js";
-import { initServices } from "./utils";
+import { decodeBLSKeys, initServices, nodeHexToID } from "./utils";
 import { emitter } from "./emitter";
+import { BigNumber } from "ethers";
+import { Hex } from "viem";
 
 export const getMinipoolDataFromNodeId = async (
   nodeID: string
@@ -41,15 +49,15 @@ export const getMinipoolDataFromNodeId = async (
 const getMessageFromStatusChangedEvent = async (
   statusChangedEvent: MinipoolStatusChanged,
   transactionEvent: TransactionEvent,
+  duration: BigNumber,
+  startTime: BigNumber,
+  owner: string,
   status?: MinipoolStatus
 ): Promise<WebhookMessageCreateOptions> => {
   const { nodeID } = statusChangedEvent;
   if (!status) {
     status = statusChangedEvent.status.toString() as MinipoolStatus;
   }
-  const { owner, duration, startTime } = await getMinipoolDataFromNodeId(
-    nodeID
-  );
   switch (status.toString()) {
     case MinipoolStatus.PRELAUNCH:
       return MINIPOOL_PRELAUNCH_TEMPLATE(
@@ -154,25 +162,57 @@ export const minipoolStatusChange = async (context: Context, event: Event) => {
     "MinipoolStatusChanged"
   );
   let message;
+  let workflowData;
   if (statusChangedEvents.length === 0) {
     throw new Error("status event not found");
-  } else if (statusChangedEvents.length === 1) {
-    const hasNewStreamlinedMinipoolMadeEvent =
-      getMatchingEvents<MinipoolStatusChanged>(
+  }
+  const nodeID = statusChangedEvents[0].nodeID;
+  const minipool = await getMinipoolDataFromNodeId(nodeID);
+  const { owner, duration, startTime } = minipool;
+  if (statusChangedEvents.length === 1) {
+    const streamlinedMinipoolMadeEvent =
+      getMatchingEvents<NewStreamlinedMinipoolMade>(
         transactionEvent,
         MINIPOOL_STREAMLINER_INTERFACE,
         "NewStreamlinedMinipoolMade"
-      )?.length > 0;
-    if (hasNewStreamlinedMinipoolMadeEvent) {
+      );
+    if (streamlinedMinipoolMadeEvent?.length > 0) {
       message = await getMessageFromStatusChangedEvent(
         statusChangedEvents[0],
         transactionEvent,
+        duration,
+        startTime,
+        owner,
         MinipoolStatus.STREAMLINE_PRELAUNCH
       );
+      const { pubKey, sig } = decodeBLSKeys(minipool.blsPubkeyAndSig as Hex);
+      workflowData = {
+        transactionHash: transactionEvent.hash,
+        blsKey: pubKey,
+        blsSig: sig,
+        nodeID: nodeHexToID(minipool.nodeID),
+        nodeIDHex: minipool.nodeID,
+        duration: duration.toString(),
+        startTime: startTime.toString(),
+        owner: minipool.owner,
+        hardwareProviderContract:
+          streamlinedMinipoolMadeEvent[0]?.hardwareProviderContract,
+      };
+      const slackMessage = await SLACK_STREAMLINED_MINIPOOL_LAUNCH_TEMPLATE(
+        workflowData
+      );
+
+      workflowData = {
+        ...slackMessage,
+        ...workflowData,
+      };
     } else {
       message = await getMessageFromStatusChangedEvent(
         statusChangedEvents[0],
-        transactionEvent
+        transactionEvent,
+        duration,
+        startTime,
+        owner
       );
     }
   } else {
@@ -180,11 +220,15 @@ export const minipoolStatusChange = async (context: Context, event: Event) => {
     message = await getMessageFromStatusChangedEvent(
       statusChangedEvents[1],
       transactionEvent,
+      duration,
+      startTime,
+      owner,
       MinipoolStatus.RESTAKE
     );
   }
   if (!message) {
     throw new Error("message not found");
   }
-  await emitter.emit(message);
+  await emitter.emit(message, workflowData);
 };
+

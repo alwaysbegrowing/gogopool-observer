@@ -11,6 +11,7 @@
     "strict": true,
     "target": "es2020",
     "skipLibCheck": true,
+    "types": []
   },
   "include": ["**/*"],
   "exclude": ["**/*.spec.ts", "node_modules"],

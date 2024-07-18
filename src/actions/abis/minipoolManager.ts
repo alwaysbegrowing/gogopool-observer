@@ -10,31 +10,131 @@ export const abi = [
     stateMutability: "nonpayable",
     type: "constructor",
   },
-  { inputs: [], name: "CancellationTooEarly", type: "error" },
-  { inputs: [], name: "ContractNotFound", type: "error" },
-  { inputs: [], name: "ContractPaused", type: "error" },
-  { inputs: [], name: "DelegationFeeOutOfBounds", type: "error" },
-  { inputs: [], name: "DurationOutOfBounds", type: "error" },
-  { inputs: [], name: "InsufficientAVAXForMinipoolCreation", type: "error" },
-  { inputs: [], name: "InsufficientGGPCollateralization", type: "error" },
-  { inputs: [], name: "InvalidAVAXAssignmentRequest", type: "error" },
-  { inputs: [], name: "InvalidAmount", type: "error" },
-  { inputs: [], name: "InvalidEndTime", type: "error" },
-  { inputs: [], name: "InvalidMultisigAddress", type: "error" },
-  { inputs: [], name: "InvalidNodeID", type: "error" },
-  { inputs: [], name: "InvalidOrOutdatedContract", type: "error" },
-  { inputs: [], name: "InvalidStartTime", type: "error" },
-  { inputs: [], name: "InvalidStateTransition", type: "error" },
-  { inputs: [], name: "MinipoolDurationExceeded", type: "error" },
-  { inputs: [], name: "MinipoolNotFound", type: "error" },
-  { inputs: [], name: "MustBeGuardian", type: "error" },
-  { inputs: [], name: "MustBeGuardianOrValidContract", type: "error" },
-  { inputs: [], name: "MustBeMultisig", type: "error" },
-  { inputs: [], name: "NegativeCycleDuration", type: "error" },
-  { inputs: [], name: "OnlyOwner", type: "error" },
-  { inputs: [], name: "OnlyRole", type: "error" },
-  { inputs: [], name: "WithdrawAmountTooLarge", type: "error" },
-  { inputs: [], name: "WithdrawForDelegationDisabled", type: "error" },
+  {
+    inputs: [],
+    name: "CancellationTooEarly",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "ContractNotFound",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "ContractPaused",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "DelegationFeeOutOfBounds",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "DurationOutOfBounds",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InsufficientAVAXForMinipoolCreation",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InsufficientGGPCollateralization",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidAVAXAssignmentRequest",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidAmount",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidEndTime",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidMultisigAddress",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidNodeID",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidOrOutdatedContract",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidStartTime",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidStateTransition",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "MinipoolDurationExceeded",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "MinipoolNotFound",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "MustBeGuardian",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "MustBeGuardianOrValidContract",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "MustBeMultisig",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "NegativeCycleDuration",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "OnlyOwner",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "OnlyRole",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "WithdrawAmountTooLarge",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "WithdrawForDelegationDisabled",
+    type: "error",
+  },
   {
     anonymous: false,
     inputs: [
@@ -88,7 +188,12 @@ export const abi = [
         name: "nodeID",
         type: "address",
       },
-      { indexed: false, internalType: "uint256", name: "ggp", type: "uint256" },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "ggp",
+        type: "uint256",
+      },
     ],
     name: "GGPSlashed",
     type: "event",
@@ -133,22 +238,50 @@ export const abi = [
   },
   {
     inputs: [
-      { internalType: "uint256", name: "avaxRewardAmt", type: "uint256" },
+      {
+        internalType: "uint256",
+        name: "avaxRewardAmt",
+        type: "uint256",
+      },
     ],
     name: "calculateGGPSlashAmt",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
     stateMutability: "view",
     type: "function",
   },
   {
-    inputs: [{ internalType: "address", name: "nodeID", type: "address" }],
+    inputs: [
+      {
+        internalType: "address",
+        name: "nodeID",
+        type: "address",
+      },
+    ],
     name: "canClaimAndInitiateStaking",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
     stateMutability: "view",
     type: "function",
   },
   {
-    inputs: [{ internalType: "address", name: "nodeID", type: "address" }],
+    inputs: [
+      {
+        internalType: "address",
+        name: "nodeID",
+        type: "address",
+      },
+    ],
     name: "cancelMinipool",
     outputs: [],
     stateMutability: "nonpayable",
@@ -156,8 +289,16 @@ export const abi = [
   },
   {
     inputs: [
-      { internalType: "address", name: "nodeID", type: "address" },
-      { internalType: "bytes32", name: "errorCode", type: "bytes32" },
+      {
+        internalType: "address",
+        name: "nodeID",
+        type: "address",
+      },
+      {
+        internalType: "bytes32",
+        name: "errorCode",
+        type: "bytes32",
+      },
     ],
     name: "cancelMinipoolByMultisig",
     outputs: [],
@@ -165,7 +306,13 @@ export const abi = [
     type: "function",
   },
   {
-    inputs: [{ internalType: "address", name: "nodeID", type: "address" }],
+    inputs: [
+      {
+        internalType: "address",
+        name: "nodeID",
+        type: "address",
+      },
+    ],
     name: "claimAndInitiateStaking",
     outputs: [],
     stateMutability: "nonpayable",
@@ -173,15 +320,31 @@ export const abi = [
   },
   {
     inputs: [
-      { internalType: "address", name: "nodeID", type: "address" },
-      { internalType: "uint256", name: "duration", type: "uint256" },
-      { internalType: "uint256", name: "delegationFee", type: "uint256" },
+      {
+        internalType: "address",
+        name: "nodeID",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "duration",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "delegationFee",
+        type: "uint256",
+      },
       {
         internalType: "uint256",
         name: "avaxAssignmentRequest",
         type: "uint256",
       },
-      { internalType: "bytes", name: "blsPubkeyAndSig", type: "bytes" },
+      {
+        internalType: "bytes",
+        name: "blsPubkeyAndSig",
+        type: "bytes",
+      },
     ],
     name: "createMinipool",
     outputs: [],
@@ -190,16 +353,36 @@ export const abi = [
   },
   {
     inputs: [
-      { internalType: "address", name: "owner", type: "address" },
-      { internalType: "address", name: "nodeID", type: "address" },
-      { internalType: "uint256", name: "duration", type: "uint256" },
-      { internalType: "uint256", name: "delegationFee", type: "uint256" },
+      {
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "nodeID",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "duration",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "delegationFee",
+        type: "uint256",
+      },
       {
         internalType: "uint256",
         name: "avaxAssignmentRequest",
         type: "uint256",
       },
-      { internalType: "bytes", name: "blsPubkeyAndSig", type: "bytes" },
+      {
+        internalType: "bytes",
+        name: "blsPubkeyAndSig",
+        type: "bytes",
+      },
     ],
     name: "createMinipoolOnBehalfOf",
     outputs: [],
@@ -208,8 +391,16 @@ export const abi = [
   },
   {
     inputs: [
-      { internalType: "uint256", name: "rewards", type: "uint256" },
-      { internalType: "address", name: "nodeID", type: "address" },
+      {
+        internalType: "uint256",
+        name: "rewards",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "nodeID",
+        type: "address",
+      },
     ],
     name: "depositFromDelegation",
     outputs: [],
@@ -218,35 +409,99 @@ export const abi = [
   },
   {
     inputs: [
-      { internalType: "uint256", name: "duration", type: "uint256" },
-      { internalType: "uint256", name: "avaxAmt", type: "uint256" },
+      {
+        internalType: "uint256",
+        name: "duration",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "avaxAmt",
+        type: "uint256",
+      },
     ],
     name: "getExpectedAVAXRewardsAmt",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
     stateMutability: "view",
     type: "function",
   },
   {
-    inputs: [{ internalType: "address", name: "nodeID", type: "address" }],
+    inputs: [
+      {
+        internalType: "address",
+        name: "nodeID",
+        type: "address",
+      },
+    ],
     name: "getIndexOf",
-    outputs: [{ internalType: "int256", name: "", type: "int256" }],
+    outputs: [
+      {
+        internalType: "int256",
+        name: "",
+        type: "int256",
+      },
+    ],
     stateMutability: "view",
     type: "function",
   },
   {
-    inputs: [{ internalType: "int256", name: "index", type: "int256" }],
+    inputs: [
+      {
+        internalType: "int256",
+        name: "index",
+        type: "int256",
+      },
+    ],
     name: "getMinipool",
     outputs: [
       {
         components: [
-          { internalType: "int256", name: "index", type: "int256" },
-          { internalType: "address", name: "nodeID", type: "address" },
-          { internalType: "uint256", name: "status", type: "uint256" },
-          { internalType: "uint256", name: "duration", type: "uint256" },
-          { internalType: "uint256", name: "delegationFee", type: "uint256" },
-          { internalType: "address", name: "owner", type: "address" },
-          { internalType: "address", name: "multisigAddr", type: "address" },
-          { internalType: "uint256", name: "avaxNodeOpAmt", type: "uint256" },
+          {
+            internalType: "int256",
+            name: "index",
+            type: "int256",
+          },
+          {
+            internalType: "address",
+            name: "nodeID",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "status",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "duration",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "delegationFee",
+            type: "uint256",
+          },
+          {
+            internalType: "address",
+            name: "owner",
+            type: "address",
+          },
+          {
+            internalType: "address",
+            name: "multisigAddr",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "avaxNodeOpAmt",
+            type: "uint256",
+          },
           {
             internalType: "uint256",
             name: "avaxNodeOpInitialAmt",
@@ -257,23 +512,51 @@ export const abi = [
             name: "avaxLiquidStakerAmt",
             type: "uint256",
           },
-          { internalType: "bytes", name: "blsPubkeyAndSig", type: "bytes" },
-          { internalType: "bytes32", name: "txID", type: "bytes32" },
-          { internalType: "uint256", name: "creationTime", type: "uint256" },
+          {
+            internalType: "bytes",
+            name: "blsPubkeyAndSig",
+            type: "bytes",
+          },
+          {
+            internalType: "bytes32",
+            name: "txID",
+            type: "bytes32",
+          },
+          {
+            internalType: "uint256",
+            name: "creationTime",
+            type: "uint256",
+          },
           {
             internalType: "uint256",
             name: "initialStartTime",
             type: "uint256",
           },
-          { internalType: "uint256", name: "startTime", type: "uint256" },
-          { internalType: "uint256", name: "endTime", type: "uint256" },
+          {
+            internalType: "uint256",
+            name: "startTime",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "endTime",
+            type: "uint256",
+          },
           {
             internalType: "uint256",
             name: "avaxTotalRewardAmt",
             type: "uint256",
           },
-          { internalType: "bytes32", name: "errorCode", type: "bytes32" },
-          { internalType: "uint256", name: "ggpSlashAmt", type: "uint256" },
+          {
+            internalType: "bytes32",
+            name: "errorCode",
+            type: "bytes32",
+          },
+          {
+            internalType: "uint256",
+            name: "ggpSlashAmt",
+            type: "uint256",
+          },
           {
             internalType: "uint256",
             name: "avaxNodeOpRewardAmt",
@@ -294,19 +577,57 @@ export const abi = [
     type: "function",
   },
   {
-    inputs: [{ internalType: "address", name: "nodeID", type: "address" }],
+    inputs: [
+      {
+        internalType: "address",
+        name: "nodeID",
+        type: "address",
+      },
+    ],
     name: "getMinipoolByNodeID",
     outputs: [
       {
         components: [
-          { internalType: "int256", name: "index", type: "int256" },
-          { internalType: "address", name: "nodeID", type: "address" },
-          { internalType: "uint256", name: "status", type: "uint256" },
-          { internalType: "uint256", name: "duration", type: "uint256" },
-          { internalType: "uint256", name: "delegationFee", type: "uint256" },
-          { internalType: "address", name: "owner", type: "address" },
-          { internalType: "address", name: "multisigAddr", type: "address" },
-          { internalType: "uint256", name: "avaxNodeOpAmt", type: "uint256" },
+          {
+            internalType: "int256",
+            name: "index",
+            type: "int256",
+          },
+          {
+            internalType: "address",
+            name: "nodeID",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "status",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "duration",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "delegationFee",
+            type: "uint256",
+          },
+          {
+            internalType: "address",
+            name: "owner",
+            type: "address",
+          },
+          {
+            internalType: "address",
+            name: "multisigAddr",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "avaxNodeOpAmt",
+            type: "uint256",
+          },
           {
             internalType: "uint256",
             name: "avaxNodeOpInitialAmt",
@@ -317,23 +638,51 @@ export const abi = [
             name: "avaxLiquidStakerAmt",
             type: "uint256",
           },
-          { internalType: "bytes", name: "blsPubkeyAndSig", type: "bytes" },
-          { internalType: "bytes32", name: "txID", type: "bytes32" },
-          { internalType: "uint256", name: "creationTime", type: "uint256" },
+          {
+            internalType: "bytes",
+            name: "blsPubkeyAndSig",
+            type: "bytes",
+          },
+          {
+            internalType: "bytes32",
+            name: "txID",
+            type: "bytes32",
+          },
+          {
+            internalType: "uint256",
+            name: "creationTime",
+            type: "uint256",
+          },
           {
             internalType: "uint256",
             name: "initialStartTime",
             type: "uint256",
           },
-          { internalType: "uint256", name: "startTime", type: "uint256" },
-          { internalType: "uint256", name: "endTime", type: "uint256" },
+          {
+            internalType: "uint256",
+            name: "startTime",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "endTime",
+            type: "uint256",
+          },
           {
             internalType: "uint256",
             name: "avaxTotalRewardAmt",
             type: "uint256",
           },
-          { internalType: "bytes32", name: "errorCode", type: "bytes32" },
-          { internalType: "uint256", name: "ggpSlashAmt", type: "uint256" },
+          {
+            internalType: "bytes32",
+            name: "errorCode",
+            type: "bytes32",
+          },
+          {
+            internalType: "uint256",
+            name: "ggpSlashAmt",
+            type: "uint256",
+          },
           {
             internalType: "uint256",
             name: "avaxNodeOpRewardAmt",
@@ -356,28 +705,78 @@ export const abi = [
   {
     inputs: [],
     name: "getMinipoolCount",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [
-      { internalType: "enum MinipoolStatus", name: "status", type: "uint8" },
-      { internalType: "uint256", name: "offset", type: "uint256" },
-      { internalType: "uint256", name: "limit", type: "uint256" },
+      {
+        internalType: "enum MinipoolStatus",
+        name: "status",
+        type: "uint8",
+      },
+      {
+        internalType: "uint256",
+        name: "offset",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "limit",
+        type: "uint256",
+      },
     ],
     name: "getMinipools",
     outputs: [
       {
         components: [
-          { internalType: "int256", name: "index", type: "int256" },
-          { internalType: "address", name: "nodeID", type: "address" },
-          { internalType: "uint256", name: "status", type: "uint256" },
-          { internalType: "uint256", name: "duration", type: "uint256" },
-          { internalType: "uint256", name: "delegationFee", type: "uint256" },
-          { internalType: "address", name: "owner", type: "address" },
-          { internalType: "address", name: "multisigAddr", type: "address" },
-          { internalType: "uint256", name: "avaxNodeOpAmt", type: "uint256" },
+          {
+            internalType: "int256",
+            name: "index",
+            type: "int256",
+          },
+          {
+            internalType: "address",
+            name: "nodeID",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "status",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "duration",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "delegationFee",
+            type: "uint256",
+          },
+          {
+            internalType: "address",
+            name: "owner",
+            type: "address",
+          },
+          {
+            internalType: "address",
+            name: "multisigAddr",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "avaxNodeOpAmt",
+            type: "uint256",
+          },
           {
             internalType: "uint256",
             name: "avaxNodeOpInitialAmt",
@@ -388,23 +787,51 @@ export const abi = [
             name: "avaxLiquidStakerAmt",
             type: "uint256",
           },
-          { internalType: "bytes", name: "blsPubkeyAndSig", type: "bytes" },
-          { internalType: "bytes32", name: "txID", type: "bytes32" },
-          { internalType: "uint256", name: "creationTime", type: "uint256" },
+          {
+            internalType: "bytes",
+            name: "blsPubkeyAndSig",
+            type: "bytes",
+          },
+          {
+            internalType: "bytes32",
+            name: "txID",
+            type: "bytes32",
+          },
+          {
+            internalType: "uint256",
+            name: "creationTime",
+            type: "uint256",
+          },
           {
             internalType: "uint256",
             name: "initialStartTime",
             type: "uint256",
           },
-          { internalType: "uint256", name: "startTime", type: "uint256" },
-          { internalType: "uint256", name: "endTime", type: "uint256" },
+          {
+            internalType: "uint256",
+            name: "startTime",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "endTime",
+            type: "uint256",
+          },
           {
             internalType: "uint256",
             name: "avaxTotalRewardAmt",
             type: "uint256",
           },
-          { internalType: "bytes32", name: "errorCode", type: "bytes32" },
-          { internalType: "uint256", name: "ggpSlashAmt", type: "uint256" },
+          {
+            internalType: "bytes32",
+            name: "errorCode",
+            type: "bytes32",
+          },
+          {
+            internalType: "uint256",
+            name: "ggpSlashAmt",
+            type: "uint256",
+          },
           {
             internalType: "uint256",
             name: "avaxNodeOpRewardAmt",
@@ -427,14 +854,26 @@ export const abi = [
   {
     inputs: [],
     name: "getTotalAVAXLiquidStakerAmt",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "minStakingDuration",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
     stateMutability: "view",
     type: "function",
   },
@@ -447,9 +886,21 @@ export const abi = [
   },
   {
     inputs: [
-      { internalType: "address", name: "nodeID", type: "address" },
-      { internalType: "uint256", name: "endTime", type: "uint256" },
-      { internalType: "uint256", name: "avaxTotalRewardAmt", type: "uint256" },
+      {
+        internalType: "address",
+        name: "nodeID",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "endTime",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "avaxTotalRewardAmt",
+        type: "uint256",
+      },
     ],
     name: "recordStakingEnd",
     outputs: [],
@@ -458,9 +909,21 @@ export const abi = [
   },
   {
     inputs: [
-      { internalType: "address", name: "nodeID", type: "address" },
-      { internalType: "uint256", name: "endTime", type: "uint256" },
-      { internalType: "uint256", name: "avaxTotalRewardAmt", type: "uint256" },
+      {
+        internalType: "address",
+        name: "nodeID",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "endTime",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "avaxTotalRewardAmt",
+        type: "uint256",
+      },
     ],
     name: "recordStakingEndThenMaybeCycle",
     outputs: [],
@@ -469,8 +932,16 @@ export const abi = [
   },
   {
     inputs: [
-      { internalType: "address", name: "nodeID", type: "address" },
-      { internalType: "bytes32", name: "errorCode", type: "bytes32" },
+      {
+        internalType: "address",
+        name: "nodeID",
+        type: "address",
+      },
+      {
+        internalType: "bytes32",
+        name: "errorCode",
+        type: "bytes32",
+      },
     ],
     name: "recordStakingError",
     outputs: [],
@@ -479,9 +950,21 @@ export const abi = [
   },
   {
     inputs: [
-      { internalType: "address", name: "nodeID", type: "address" },
-      { internalType: "bytes32", name: "txID", type: "bytes32" },
-      { internalType: "uint256", name: "startTime", type: "uint256" },
+      {
+        internalType: "address",
+        name: "nodeID",
+        type: "address",
+      },
+      {
+        internalType: "bytes32",
+        name: "txID",
+        type: "bytes32",
+      },
+      {
+        internalType: "uint256",
+        name: "startTime",
+        type: "uint256",
+      },
     ],
     name: "recordStakingStart",
     outputs: [],
@@ -489,16 +972,36 @@ export const abi = [
     type: "function",
   },
   {
-    inputs: [{ internalType: "address", name: "nodeID", type: "address" }],
+    inputs: [
+      {
+        internalType: "address",
+        name: "nodeID",
+        type: "address",
+      },
+    ],
     name: "requireValidMinipool",
-    outputs: [{ internalType: "int256", name: "", type: "int256" }],
+    outputs: [
+      {
+        internalType: "int256",
+        name: "",
+        type: "int256",
+      },
+    ],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [
-      { internalType: "address", name: "nodeID", type: "address" },
-      { internalType: "bytes", name: "blsPubkeyAndSig", type: "bytes" },
+      {
+        internalType: "address",
+        name: "nodeID",
+        type: "address",
+      },
+      {
+        internalType: "bytes",
+        name: "blsPubkeyAndSig",
+        type: "bytes",
+      },
     ],
     name: "setBLSKeys",
     outputs: [],
@@ -508,14 +1011,28 @@ export const abi = [
   {
     inputs: [],
     name: "version",
-    outputs: [{ internalType: "uint8", name: "", type: "uint8" }],
+    outputs: [
+      {
+        internalType: "uint8",
+        name: "",
+        type: "uint8",
+      },
+    ],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [
-      { internalType: "uint256", name: "amount", type: "uint256" },
-      { internalType: "address", name: "nodeID", type: "address" },
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "nodeID",
+        type: "address",
+      },
     ],
     name: "withdrawForDelegation",
     outputs: [],
@@ -523,7 +1040,13 @@ export const abi = [
     type: "function",
   },
   {
-    inputs: [{ internalType: "address", name: "nodeID", type: "address" }],
+    inputs: [
+      {
+        internalType: "address",
+        name: "nodeID",
+        type: "address",
+      },
+    ],
     name: "withdrawMinipoolFunds",
     outputs: [],
     stateMutability: "nonpayable",
@@ -531,12 +1054,20 @@ export const abi = [
   },
   {
     inputs: [
-      { internalType: "address", name: "nodeID", type: "address" },
-      { internalType: "uint256", name: "duration", type: "uint256" },
+      {
+        internalType: "address",
+        name: "nodeID",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "duration",
+        type: "uint256",
+      },
     ],
     name: "withdrawRewardsAndRelaunchMinipool",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
-];
+] as const

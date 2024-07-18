@@ -1013,3 +1013,127 @@ export const REWARDS_ENDING_REMINDER_TEMPLATE = ({
     ],
   };
 };
+
+export const SLACK_STREAMLINED_MINIPOOL_LAUNCH_TEMPLATE = async ({
+  transactionHash,
+  blsKey,
+  blsSig,
+  nodeID,
+  nodeIDHex,
+  duration,
+  startTime,
+  owner,
+  hardwareProviderContract,
+}: {
+  transactionHash: string;
+  blsKey?: string;
+  blsSig?: string;
+  nodeID: string;
+  nodeIDHex: string;
+  duration: string;
+  startTime: string;
+  owner: string;
+  hardwareProviderContract: BigNumber;
+}) => {
+  const elements = [
+    {
+      type: "button",
+      text: {
+        type: "plain_text",
+        emoji: true,
+        text: ":snowman: Transaction",
+      },
+      url: `https://snowscan.xyz/tx/${transactionHash}`,
+      action_id: "transaction-hash-link",
+    },
+    {
+      type: "button",
+      text: {
+        type: "plain_text",
+        emoji: true,
+        text: ":snowman: Owner",
+      },
+      url: `https://snowscan.xyz/address/${owner}`,
+      action_id: "owner-link",
+    },
+    {
+      type: "button",
+      text: {
+        type: "plain_text",
+        emoji: true,
+        text: ":closed_umbrella: Validator",
+      },
+      url: `https://avascan.info/staking/validator/${nodeID}`,
+      action_id: "node-id-link",
+    },
+  ];
+  const displayDuration = Math.floor(parseInt(duration) / 86400);
+  const displayStartTime = new Date(parseInt(startTime) * 1000).toUTCString();
+  return {
+    blocks: [
+      {
+        type: "header",
+        text: {
+          type: "plain_text",
+          text: ":operation-forklift: Streamlined Minipool Launch",
+          emoji: true,
+        },
+      },
+      {
+        type: "context",
+        elements: [
+          {
+            type: "mrkdwn",
+            text: `*${displayStartTime}*`,
+          },
+          {
+            type: "mrkdwn",
+            text: "|",
+          },
+          {
+            type: "mrkdwn",
+            text: `*${displayDuration} days*`,
+          },
+        ],
+      },
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: `${nodeID} \`hex:${nodeIDHex}\``,
+        },
+      },
+      {
+        type: "divider",
+      },
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: `*Hardware Provider* \`${hardwareProviderContract}\``,
+        },
+      },
+      {
+        type: "context",
+        elements: [
+          {
+            text: `*BLS Key* \`\`\`${blsKey}\`\`\``,
+            type: "mrkdwn",
+          },
+          {
+            text: `*BLS Signature* \`\`\`${blsSig}\`\`\``,
+            type: "mrkdwn",
+          },
+        ],
+      },
+      {
+        type: "divider",
+      },
+      {
+        type: "actions",
+        elements,
+      },
+    ],
+  };
+};
+
