@@ -1087,12 +1087,16 @@ export const SLACK_STREAMLINED_MINIPOOL_LAUNCH_TEMPLATE = async ({
         ],
       },
       {
+        type: "actions",
+        elements,
+      },
+      {
         type: "section",
         text: {
           type: "mrkdwn",
           text: `${nodeID} \`hex:${nodeIDHex}\``,
         },
-      },
+      },//
       {
         type: "divider",
       },
@@ -1107,7 +1111,7 @@ export const SLACK_STREAMLINED_MINIPOOL_LAUNCH_TEMPLATE = async ({
         type: "context",
         elements: [
           {
-            text: `*BLS Key* \`\`\`${blsKey}\`\`\``,
+            text: `*BLS Public Key* \`\`\`${blsKey}\`\`\``,
             type: "mrkdwn",
           },
           {
@@ -1115,13 +1119,6 @@ export const SLACK_STREAMLINED_MINIPOOL_LAUNCH_TEMPLATE = async ({
             type: "mrkdwn",
           },
         ],
-      },
-      {
-        type: "divider",
-      },
-      {
-        type: "actions",
-        elements,
       },
     ],
   };
