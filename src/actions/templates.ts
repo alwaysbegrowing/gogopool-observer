@@ -9,18 +9,8 @@ import {
 } from "discord.js";
 import { BigNumber, utils } from "ethers";
 import { getOrdinalDisplay, nodeHexToID } from "./utils";
-import hash from "hash-emoji";
 import { RewardsInformation, XGGPDeposit } from "./types";
-
-export const getEmojiAddress = (address: string) => {
-  return `${hash(address)} ${address.slice(0, 6)}...${address.slice(-4)}`;
-};
-
-export const getEmojiNodeId = (address: string) => {
-  const emoji = hash(address);
-  const nodeId = nodeHexToID(address);
-  return `${emoji} ${nodeId.slice(0, 11)}...${nodeId.slice(-4)}`;
-};
+import { getEmojiAddress, getEmojiNodeId } from "./addresses";
 
 const pilotComponent = (owner: string) => {
   return new ButtonBuilder()

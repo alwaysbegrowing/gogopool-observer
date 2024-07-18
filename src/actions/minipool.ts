@@ -28,7 +28,6 @@ import { WebhookMessageCreateOptions } from "discord.js";
 import { decodeBLSKeys, initServices, nodeHexToID } from "./utils";
 import { emitter } from "./emitter";
 import { BigNumber } from "ethers";
-import { Hex } from "viem";
 
 export const getMinipoolDataFromNodeId = async (
   nodeID: string
@@ -185,7 +184,7 @@ export const minipoolStatusChange = async (context: Context, event: Event) => {
         owner,
         MinipoolStatus.STREAMLINE_PRELAUNCH
       );
-      const { pubKey, sig } = decodeBLSKeys(minipool.blsPubkeyAndSig as Hex);
+      const { pubKey, sig } = decodeBLSKeys(minipool.blsPubkeyAndSig);
       workflowData = {
         transactionHash: transactionEvent.hash,
         blsKey: pubKey,

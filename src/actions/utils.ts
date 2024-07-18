@@ -17,7 +17,6 @@ import {
 } from "./constants";
 import { databaseClient } from "./database";
 import { emitter } from "./emitter";
-import { Hex, toBytes, decodeAbiParameters, parseAbiParameters } from "viem";
 
 const bintools = BinTools.getInstance();
 
@@ -158,22 +157,22 @@ export const getOrdinalDisplay = (n: BigNumber) => {
   return `${n.toString()}${getOrdinal(n.toNumber())}`;
 };
 
-export const decodeBLSKeys = (blsPubkeyAndSig: Hex) => {
+export const decodeBLSKeys = (blsPubkeyAndSig: string) => {
   try {
     // Validate the input length (dynamic bytes should at least have size prefixes).
     // pubkey is at least 48 and sig is at least 96 bytes
-    if (toBytes(blsPubkeyAndSig).length < 144) {
+    if (ethers.utils.arrayify(blsPubkeyAndSig).length < 144) {
       return { pubKey: undefined, sig: undefined };
     }
 
-    const [pubKey, sig] = decodeAbiParameters(
-      parseAbiParameters("bytes, bytes"),
+    const decoded = ethers.utils.defaultAbiCoder.decode(
+      ["bytes", "bytes"],
       blsPubkeyAndSig
     );
 
     return {
-      pubKey: pubKey as string,
-      sig: sig as string,
+      pubKey: decoded[0],
+      sig: decoded[1],
     };
   } catch (error) {
     console.error({ error });
