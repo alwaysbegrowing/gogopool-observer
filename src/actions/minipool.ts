@@ -14,7 +14,6 @@ import {
   MINIPOOL_STAKING_TEMPLATE,
   MINIPOOL_STREAMLINE_TEMPLATE,
   MINIPOOL_WITHDRAWABLE_TEMPLATE,
-  SLACK_STREAMLINED_MINIPOOL_LAUNCH_TEMPLATE,
 } from "./templates";
 import { getMatchingEvents } from "./logParsing";
 import {
@@ -184,27 +183,6 @@ export const minipoolStatusChange = async (context: Context, event: Event) => {
         owner,
         MinipoolStatus.STREAMLINE_PRELAUNCH
       );
-      const { pubKey, sig } = decodeBLSKeys(minipool.blsPubkeyAndSig);
-      workflowData = {
-        transactionHash: transactionEvent.hash,
-        blsKey: pubKey,
-        blsSig: sig,
-        nodeID: nodeHexToID(minipool.nodeID),
-        nodeIDHex: minipool.nodeID,
-        duration: duration.toString(),
-        startTime: startTime.toString(),
-        owner: minipool.owner,
-        hardwareProviderContract:
-          streamlinedMinipoolMadeEvent[0]?.hardwareProviderContract,
-      };
-      const slackMessage = await SLACK_STREAMLINED_MINIPOOL_LAUNCH_TEMPLATE(
-        workflowData
-      );
-
-      workflowData = {
-        ...slackMessage,
-        ...workflowData,
-      };
     } else {
       message = await getMessageFromStatusChangedEvent(
         statusChangedEvents[0],
@@ -230,4 +208,3 @@ export const minipoolStatusChange = async (context: Context, event: Event) => {
   }
   await emitter.emit(message, workflowData);
 };
-
