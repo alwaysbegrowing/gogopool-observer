@@ -1096,7 +1096,7 @@ export const SLACK_STREAMLINED_MINIPOOL_LAUNCH_TEMPLATE = async ({
           type: "mrkdwn",
           text: `${nodeID} \`hex:${nodeIDHex}\``,
         },
-      },//
+      },
       {
         type: "divider",
       },

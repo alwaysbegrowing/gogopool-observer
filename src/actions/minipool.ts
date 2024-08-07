@@ -24,7 +24,7 @@ import {
 } from "./types";
 import { jsonRpcProvider } from "./ethers";
 import { WebhookMessageCreateOptions } from "discord.js";
-import { decodeBLSKeys, initServices, nodeHexToID } from "./utils";
+import { initServices } from "./utils";
 import { emitter } from "./emitter";
 import { BigNumber } from "ethers";
 
@@ -160,7 +160,6 @@ export const minipoolStatusChange = async (context: Context, event: Event) => {
     "MinipoolStatusChanged"
   );
   let message;
-  let workflowData;
   if (statusChangedEvents.length === 0) {
     throw new Error("status event not found");
   }
@@ -206,5 +205,5 @@ export const minipoolStatusChange = async (context: Context, event: Event) => {
   if (!message) {
     throw new Error("message not found");
   }
-  await emitter.emit(message, workflowData);
+  await emitter.emit(message);
 };

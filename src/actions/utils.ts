@@ -5,7 +5,6 @@ import { Buffer } from "buffer/"; // note: the slash is important!
 import ms from "ms";
 import { Context } from "@tenderly/actions";
 import { discordClient } from "./discord";
-import { knockClient } from "./knock";
 import { jsonRpcProvider } from "./ethers";
 import {
   DATABASE_COLLECTION_SECRET_NAME,
@@ -13,7 +12,6 @@ import {
   DATABASE_URI_SECRET_NAME,
   DISCORD_WEBHOOK_URL_SECRET_NAME,
   JSON_RPC_URL_SECRET_NAME,
-  KNOCK_TOKEN_SECRET_NAME,
 } from "./constants";
 import { databaseClient } from "./database";
 import { emitter } from "./emitter";
@@ -135,8 +133,6 @@ export const initServices = async (context: Context) => {
     await context.secrets.get(DATABASE_COLLECTION_SECRET_NAME)
   );
   emitter.addClient(databaseClient);
-  knockClient.init(await context.secrets.get(KNOCK_TOKEN_SECRET_NAME));
-  emitter.addClient(knockClient);
 };
 
 export const getOrdinal = (n: number) => {
